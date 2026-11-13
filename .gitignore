@@ -1,0 +1,7 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+.env
+data/google_credentials.json
+data/*.mp3
+
