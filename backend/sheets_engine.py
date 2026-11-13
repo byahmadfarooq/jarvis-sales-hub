@@ -35,6 +35,8 @@ class CRMDatabase:
                 created_at TEXT
             )
             """)
+            conn.execute("CREATE INDEX IF NOT EXISTS idx_leads_status ON leads(status)")
+            conn.execute("CREATE INDEX IF NOT EXISTS idx_leads_email ON leads(email)")
             conn.execute("""
             CREATE TABLE IF NOT EXISTS campaign_settings (
                 id INTEGER PRIMARY KEY,

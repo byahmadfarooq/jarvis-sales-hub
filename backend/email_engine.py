@@ -74,6 +74,16 @@ class EmailEngine:
             with smtplib.SMTP_SSL(smtp_server, smtp_port, timeout=15) as server:
                 server.login(username, password)
                 server.sendmail(sender_addr, [to_email], msg.as_string())
+
+            # Automatically save a copy to Hostinger Webmail's "Sent" folder via IMAP
+            try:
+                import time
+                with imaplib.IMAP4_SSL(self.imap_host, self.imap_port, timeout=10) as mail:
+                    mail.login(self.hostinger_email, self.hostinger_pwd)
+                    mail.append('INBOX.Sent', '\\Seen', imaplib.Time2Internaldate(time.time()), msg.as_bytes())
+            except Exception as imap_err:
+                print("Warning: Could not save copy to INBOX.Sent:", imap_err)
+
             return {
                 "success": True,
                 "sent_at": datetime.utcnow().isoformat(),
