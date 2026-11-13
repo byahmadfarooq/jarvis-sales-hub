@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JARVIS // ZotirLabs Sales & Operations Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #060911;
+            color: #d1d5db;
+        }
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .glow-cyan {
+            box-shadow: 0 0 25px rgba(6, 182, 212, 0.25);
+        }
+        .glow-border {
+            border: 1px solid rgba(6, 182, 212, 0.35);
+        }
+        .bg-glass {
+            background: rgba(14, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090e1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-cyan-500 selection:text-black">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-glass border-b border-cyan-900/40 px-6 py-4 flex items-center justify-between sticky top-0 z-50">
+        <div class="flex items-center space-x-3">
+            <div class="w-3 h-3 rounded-full bg-cyan-400 animate-pulse"></div>
+            <span class="font-bold tracking-widest text-lg text-white font-mono">JARVIS // <span class="text-cyan-400">ZOTIRLABS</span></span>
+            <span class="text-xs bg-cyan-950 border border-cyan-800 text-cyan-400 px-2 py-0.5 rounded-full font-mono">SYSTEM ACTIVE</span>
+        </div>
+        <div class="flex items-center space-x-6 text-sm">
+            <div class="flex items-center space-x-2 text-gray-400">
+                <i class="fa-solid fa-envelope text-cyan-400"></i>
+                <span id="senderDisplay">harvey@zotirlabs.com</span>
+            </div>
+            <div class="flex items-center space-x-2 text-gray-400">
+                <i class="fa-solid fa-calendar-check text-cyan-400"></i>
+                <a href="https://zotirlabs.com/book" target="_blank" class="hover:text-cyan-300">zotirlabs.com/book</a>
+            </div>
+            <a href="https://wa.me/923427689885" target="_blank" class="bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 px-3 py-1 rounded-md text-xs flex items-center space-x-1 hover:bg-emerald-600/30">
+                <i class="fa-brands fa-whatsapp"></i>
+                <span>WhatsApp Bridge</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <div class="flex-1 flex overflow-hidden">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 bg-slate-950/80 border-r border-cyan-900/30 p-4 flex flex-col justify-between">
+            <nav class="space-y-1">
+                <button onclick="switchTab('cockpit')" id="tab-cockpit" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold transition bg-cyan-950/60 text-cyan-300 border border-cyan-800/60">
+                    <i class="fa-solid fa-atom w-5"></i>
+                    <span>Jarvis Cockpit</span>
+                </button>
+                <button onclick="switchTab('leads')" id="tab-leads" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold transition text-gray-400 hover:text-white hover:bg-slate-900">
+                    <i class="fa-solid fa-users w-5"></i>
+                    <span>Leads CRM</span>
+                </button>
+                <button onclick="switchTab('scraper')" id="tab-scraper" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold transition text-gray-400 hover:text-white hover:bg-slate-900">
+                    <i class="fa-solid fa-radar w-5"></i>
+                    <span>Lead Scraper</span>
+                </button>
+                <button onclick="switchTab('inbox')" id="tab-inbox" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold transition text-gray-400 hover:text-white hover:bg-slate-900">
+                    <i class="fa-solid fa-inbox w-5"></i>
+                    <span>Inbound Scanner</span>
+                </button>
+                <button onclick="switchTab('campaign')" id="tab-campaign" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold transition text-gray-400 hover:text-white hover:bg-slate-900">
+                    <i class="fa-solid fa-sliders w-5"></i>
+                    <span>Campaign & Pitch</span>
+                </button>
+            </nav>
+
+            <div class="bg-slate-900/60 border border-slate-800 p-3 rounded-lg text-xs space-y-1">
+                <div class="flex justify-between text-gray-400">
+                    <span>AI Model</span>
+                    <span class="text-cyan-400 font-mono">Gemini 3.5 Flash</span>
+                </div>
+                <div class="flex justify-between text-gray-400">
+                    <span>Voice Unit</span>
+                    <span class="text-cyan-400 font-mono">British Neural</span>
+                </div>
+                <div class="flex justify-between text-gray-400">
+                    <span>Outbox</span>
+                    <span class="text-emerald-400 font-mono">Hostinger SMTP</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Display Content Area -->
+        <main class="flex-1 overflow-y-auto p-6 space-y-6">
+
+            <!-- Top Metric Stat Cards -->
+            <div class="grid grid-cols-5 gap-4">
+                <div class="bg-glass border border-slate-800 p-4 rounded-xl">
+                    <div class="text-gray-400 text-xs font-mono uppercase tracking-wider">Total Leads</div>
+                    <div class="text-2xl font-bold text-white mt-1" id="statTotalLeads">0</div>
+                </div>
+                <div class="bg-glass border border-slate-800 p-4 rounded-xl">
+                    <div class="text-gray-400 text-xs font-mono uppercase tracking-wider">New Ready</div>
+                    <div class="text-2xl font-bold text-cyan-400 mt-1" id="statNewLeads">0</div>
+                </div>
+                <div class="bg-glass border border-slate-800 p-4 rounded-xl">
+                    <div class="text-gray-400 text-xs font-mono uppercase tracking-wider">Contacted</div>
+                    <div class="text-2xl font-bold text-blue-400 mt-1" id="statContacted">0</div>
+                </div>
+                <div class="bg-glass border border-slate-800 p-4 rounded-xl">
+                    <div class="text-gray-400 text-xs font-mono uppercase tracking-wider">Replies / High Intent</div>
+                    <div class="text-2xl font-bold text-amber-400 mt-1" id="statReplied">0</div>
+                </div>
+                <div class="bg-glass border border-slate-800 p-4 rounded-xl border-emerald-900/40">
+                    <div class="text-gray-400 text-xs font-mono uppercase tracking-wider">Meetings Booked</div>
+                    <div class="text-2xl font-bold text-emerald-400 mt-1" id="statBooked">0</div>
+                </div>
+            </div>
+
+            <!-- VIEW 1: JARVIS COCKPIT -->
+            <section id="view-cockpit" class="space-y-6">
+                <div class="grid grid-cols-3 gap-6">
+                    <!-- Circular Visualizer HUD -->
+                    <div class="col-span-1 bg-glass border border-cyan-900/30 rounded-2xl p-6 flex flex-col items-center justify-center relative overflow-hidden">
+                        <div class="text-xs font-mono text-cyan-400 tracking-widest uppercase mb-4">Neural Voice Core</div>
+                        
+                        <div class="relative w-56 h-56 flex items-center justify-center">
+                            <canvas id="jarvisCanvas" width="224" height="224" class="absolute inset-0"></canvas>
+                            <div id="hudPulse" class="w-32 h-32 rounded-full border border-cyan-500/40 flex items-center justify-center bg-cyan-950/20 glow-cyan transition-all duration-300">
+                                <i class="fa-solid fa-microphone text-3xl text-cyan-400" id="micIcon"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 flex space-x-3">
+                            <button onclick="toggleVoiceInput()" id="btnVoiceRecord" class="bg-cyan-500 text-black px-4 py-2 rounded-lg text-sm font-semibold flex items-center space-x-2 hover:bg-cyan-400 transition">
+                                <i class="fa-solid fa-microphone"></i>
+                                <span id="recordText">Speak to Jarvis</span>
+                            </button>
+                            <button onclick="playGreeting()" class="bg-slate-800 text-cyan-400 px-3 py-2 rounded-lg text-sm hover:bg-slate-700 transition" title="Test Voice Output">
+                                <i class="fa-solid fa-volume-high"></i>
+                            </button>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-3 text-center">Hands-free microphone & British Neural output</p>
+                    </div>
+
+                    <!-- Interactive Executive Chat -->
+                    <div class="col-span-2 bg-glass border border-slate-800 rounded-2xl flex flex-col h-[480px]">
+                        <div class="px-5 py-3 border-b border-slate-800 flex items-center justify-between text-xs font-mono text-gray-400">
+                            <span>CO-PILOT // STRATEGY, PLANNING & PROPOSALS</span>
+                            <span class="text-emerald-400">ONLINE</span>
+                        </div>
+                        
+                        <div id="chatHistory" class="flex-1 overflow-y-auto p-4 space-y-3 font-sans text-sm">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 rounded-full bg-cyan-950 border border-cyan-800 flex items-center justify-center text-cyan-400 text-xs">J</div>
+                                <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 max-w-[85%] text-gray-200">
+                                    Good day, sir. All systems for ZotirLabs are online. Hostinger SMTP is authenticated for <b>harvey@zotirlabs.com</b>. How may I assist with our outreach campaign today?
+                                </div>
+                            </div>
+                        </div>
+
+                        <form onsubmit="handleChatSubmit(event)" class="p-3 border-t border-slate-800 flex space-x-2">
+                            <input type="text" id="chatInput" placeholder="Ask Jarvis to plan outreach, draft an email, or review a proposal..." class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500">
+                            <button type="submit" class="bg-cyan-500 text-black px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-cyan-400 transition flex items-center space-x-1">
+                                <span>Send</span>
+                                <i class="fa-solid fa-paper-plane text-xs"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 2: LEADS CRM TABLE -->
+            <section id="view-leads" class="hidden space-y-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+                        <i class="fa-solid fa-table-list text-cyan-400"></i>
+                        <span>Lead Pipeline & CRM (Google Sheets Linked)</span>
+                    </h2>
+                    <div class="flex space-x-2">
+                        <button onclick="refreshLeads()" class="bg-slate-800 px-3 py-1.5 rounded-lg text-xs hover:bg-slate-700 text-gray-300">
+                            <i class="fa-solid fa-rotate mr-1"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-glass border border-slate-800 rounded-xl overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-900/80 text-gray-400 font-mono text-xs border-b border-slate-800">
+                            <tr>
+                                <th class="p-3">Name & Company</th>
+                                <th class="p-3">Email Address</th>
+                                <th class="p-3">Website</th>
+                                <th class="p-3">Status</th>
+                                <th class="p-3 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leadsTableBody" class="divide-y divide-slate-800/60">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- VIEW 3: LEAD SCRAPER -->
+            <section id="view-scraper" class="hidden space-y-6">
+                <div class="bg-glass border border-slate-800 rounded-2xl p-6 space-y-4">
+                    <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+                        <i class="fa-solid fa-radar text-cyan-400"></i>
+                        <span>Multi-Source B2B Lead Scraper</span>
+                    </h2>
+                    <p class="text-xs text-gray-400">Search target business niches in specific locations, extract their domains, and automatically crawl websites to discover direct business emails.</p>
+
+                    <div class="grid grid-cols-3 gap-4 pt-2">
+                        <div>
+                            <label class="block text-xs font-mono text-gray-400 mb-1">Target Niche / Industry</label>
+                            <input type="text" id="scrapeNiche" value="Real estate agencies" placeholder="e.g. Accounting firms, HVAC, Dental" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-cyan-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono text-gray-400 mb-1">City / Region</label>
+                            <input type="text" id="scrapeLocation" value="Manchester" placeholder="e.g. London, Dubai, Austin" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-cyan-500">
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="triggerScraper()" id="btnScrape" class="w-full bg-cyan-500 text-black py-2 rounded-lg text-sm font-semibold hover:bg-cyan-400 transition flex items-center justify-center space-x-2">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <span>Find & Crawl Leads</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="scrapeResultsContainer" class="bg-glass border border-slate-800 rounded-xl p-4 hidden">
+                    <h3 class="text-sm font-bold text-gray-300 mb-2">Scrape Feed & Enriched Leads</h3>
+                    <div id="scrapeResultsList" class="space-y-2 text-xs font-mono"></div>
+                </div>
+            </section>
+
+            <!-- VIEW 4: INBOUND SCANNER -->
+            <section id="view-inbox" class="hidden space-y-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+                        <i class="fa-solid fa-envelope-open-text text-cyan-400"></i>
+                        <span>Inbound Email Scanner (Hostinger IMAP + Gemini Analysis)</span>
+                    </h2>
+                    <button onclick="scanInbox()" id="btnScanInbox" class="bg-cyan-500 text-black px-4 py-2 rounded-lg text-xs font-semibold hover:bg-cyan-400">
+                        <i class="fa-solid fa-arrows-rotate mr-1"></i> Scan Inbox Now
+                    </button>
+                </div>
+                <div id="inboxList" class="space-y-3">
+                    <div class="bg-glass border border-slate-800 p-4 rounded-xl text-xs text-gray-400">
+                        Click "Scan Inbox Now" to fetch recent responses and analyze intent.
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW 5: CAMPAIGN & PITCH SETTINGS -->
+            <section id="view-campaign" class="hidden space-y-6">
+                <div class="bg-glass border border-slate-800 rounded-2xl p-6 space-y-4 max-w-2xl">
+                    <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+                        <i class="fa-solid fa-sliders text-cyan-400"></i>
+                        <span>Dynamic Campaign Settings</span>
+                    </h2>
+                    <p class="text-xs text-gray-400">Jarvis will tailor every email, objection answer, and pitch around these core variables.</p>
+
+                    <div class="space-y-3 pt-2">
+                        <div>
+                            <label class="block text-xs font-mono text-gray-400 mb-1">Company Name</label>
+                            <input type="text" id="campCompany" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono text-gray-400 mb-1">Primary Value Offer (CTA Hook)</label>
+                            <input type="text" id="campOffer" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono text-gray-400 mb-1">Meeting Booking URL</label>
+                            <input type="text" id="campBooking" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono text-gray-400 mb-1">WhatsApp Closing Bridge Number</label>
+                            <input type="text" id="campWhatsapp" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono text-gray-400 mb-1">Primary Sender Alias</label>
+                            <input type="text" id="campSender" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+                        </div>
+                        <button onclick="saveCampaign()" class="bg-cyan-500 text-black px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-cyan-400 transition">
+                            Save Campaign Profile
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- MODAL: DRAFT & SEND EMAIL -->
+    <div id="emailModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
+        <div class="bg-slate-950 border border-cyan-800 rounded-2xl max-w-xl w-full p-6 space-y-4 glow-cyan">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-white flex items-center space-x-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-cyan-400"></i>
+                    <span>Gemini Tailored Outreach Draft</span>
+                </h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white">&times;</button>
+            </div>
+            
+            <input type="hidden" id="modalLeadId">
+            <div>
+                <label class="block text-xs font-mono text-gray-400 mb-1">Recipient</label>
+                <input type="text" id="modalRecipient" readonly class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-sm text-cyan-400 font-mono">
+            </div>
+            <div>
+                <label class="block text-xs font-mono text-gray-400 mb-1">Subject Line</label>
+                <input type="text" id="modalSubject" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+            </div>
+            <div>
+                <label class="block text-xs font-mono text-gray-400 mb-1">Email Body</label>
+                <textarea id="modalBody" rows="7" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white font-sans"></textarea>
+            </div>
+
+            <div class="flex justify-between items-center pt-2">
+                <span class="text-xs text-gray-500 font-mono">Sender: harvey@zotirlabs.com</span>
+                <div class="flex space-x-2">
+                    <button onclick="closeModal()" class="px-4 py-2 rounded-lg text-sm bg-slate-800 text-gray-300 hover:bg-slate-700">Cancel</button>
+                    <button onclick="executeSend()" id="btnModalSend" class="px-5 py-2 rounded-lg text-sm font-semibold bg-cyan-500 text-black hover:bg-cyan-400 flex items-center space-x-1">
+                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                        <span>Send Now</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Audio Player for Jarvis Voice -->
+    <audio id="jarvisAudio"></audio>
+
+    <script>
+        // State
+        let currentTab = 'cockpit';
+        let isRecording = false;
+        let recognition = null;
+
+        // Initialize HUD Canvas
+        const canvas = document.getElementById('jarvisCanvas');
+        const ctx = canvas.getContext('2d');
+        let angle = 0;
+
+        function drawHUD() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+            
+            // Outer rotating ring
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(angle);
+            ctx.strokeStyle = 'rgba(6, 182, 212, 0.4)';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([8, 12]);
+            ctx.beginPath();
+            ctx.arc(0, 0, 95, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+
+            // Inner reverse rotating ring
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(-angle * 1.5);
+            ctx.strokeStyle = 'rgba(6, 182, 212, 0.6)';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([16, 8]);
+            ctx.beginPath();
+            ctx.arc(0, 0, 80, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+
+            angle += 0.01;
+            requestAnimationFrame(drawHUD);
+        }
+        drawHUD();
+
+        // Tab Switching
+        function switchTab(tab) {
+            currentTab = tab;
+            ['cockpit', 'leads', 'scraper', 'inbox', 'campaign'].forEach(t => {
+                document.getElementById(`view-${t}`).classList.add('hidden');
+                document.getElementById(`tab-${t}`).className = 'w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold transition text-gray-400 hover:text-white hover:bg-slate-900';
+            });
+            document.getElementById(`view-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-${tab}`).className = 'w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold transition bg-cyan-950/60 text-cyan-300 border border-cyan-800/60';
+
+            if (tab === 'leads') refreshLeads();
+            if (tab === 'campaign') loadCampaign();
+        }
+
+        // Fetch Stats
+        async function loadStats() {
+            try {
+                const res = await fetch('/api/stats');
+                const data = await res.json();
+                document.getElementById('statTotalLeads').innerText = data.stats.total_leads;
+                document.getElementById('statNewLeads').innerText = data.stats.new_leads;
+                document.getElementById('statContacted').innerText = data.stats.contacted;
+                document.getElementById('statReplied').innerText = data.stats.replied;
+                document.getElementById('statBooked').innerText = data.stats.booked;
+
+                if (data.campaign && data.campaign.primary_sender) {
+                    document.getElementById('senderDisplay').innerText = data.campaign.primary_sender;
+                }
+            } catch (e) {
+                console.error("Stats load error:", e);
+            }
+        }
+        loadStats();
+
+        // Speech Recognition Setup
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRec();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+
+            recognition.onresult = (event) => {
+                const text = event.results[0][0].transcript;
+                document.getElementById('chatInput').value = text;
+                handleChatSubmit(null, text);
+            };
+
+            recognition.onend = () => {
+                isRecording = false;
+                document.getElementById('recordText').innerText = "Speak to Jarvis";
+                document.getElementById('hudPulse').classList.remove('scale-110');
+            };
+        }
+
+        function toggleVoiceInput() {
+            if (!recognition) {
+                alert("Speech recognition is not supported in this browser. Please type in the chat box.");
+                return;
+            }
+            if (isRecording) {
+                recognition.stop();
+            } else {
+                recognition.start();
+                isRecording = true;
+                document.getElementById('recordText').innerText = "Listening...";
+                document.getElementById('hudPulse').classList.add('scale-110');
+            }
+        }
+
+        // Voice Greeting
+        function playGreeting() {
+            playJarvisAudio("/data/jarvis_welcome.mp3");
+        }
+
+        function playJarvisAudio(src) {
+            const audio = document.getElementById('jarvisAudio');
+            audio.src = src;
+            audio.play();
+            document.getElementById('hudPulse').classList.add('glow-cyan', 'border-cyan-400');
+            audio.onended = () => {
+                document.getElementById('hudPulse').classList.remove('border-cyan-400');
+            };
+        }
+
+        // Chat Submission
+        async function handleChatSubmit(e, overrideText) {
+            if (e) e.preventDefault();
+            const input = document.getElementById('chatInput');
+            const message = overrideText || input.value.trim();
+            if (!message) return;
+            if (!overrideText) input.value = '';
+
+            // Append user bubble
+            appendChatBubble('You', message, false);
+
+            try {
+                const res = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({message: message, with_voice: true})
+                });
+                const data = await res.json();
+                appendChatBubble('Jarvis', data.reply, true);
+
+                if (data.audio_base64) {
+                    playJarvisAudio("data:audio/mp3;base64," + data.audio_base64);
+                }
+            } catch (err) {
+                appendChatBubble('Jarvis', "Pardon me, sir. I encountered a communication error: " + err, true);
+            }
+        }
+
+        function appendChatBubble(sender, text, isJarvis) {
+            const history = document.getElementById('chatHistory');
+            const wrap = document.createElement('div');
+            wrap.className = isJarvis ? 'flex items-start space-x-3' : 'flex items-start space-x-3 justify-end';
+
+            const formattedText = text.replace(/\n/g, '<br>');
+            wrap.innerHTML = isJarvis ? `
+                <div class="w-8 h-8 rounded-full bg-cyan-950 border border-cyan-800 flex items-center justify-center text-cyan-400 text-xs flex-shrink-0">J</div>
+                <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 max-w-[85%] text-gray-200">${formattedText}</div>
+            ` : `
+                <div class="bg-cyan-950/80 border border-cyan-800/60 rounded-xl p-3 max-w-[85%] text-white">${formattedText}</div>
+            `;
+            history.appendChild(wrap);
+            history.scrollTop = history.scrollHeight;
+        }
+
+        // Leads CRM
+        async function refreshLeads() {
+            const tbody = document.getElementById('leadsTableBody');
+            tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-gray-500">Loading leads...</td></tr>';
+            try {
+                const res = await fetch('/api/leads');
+                const leads = await res.json();
+                loadStats();
+
+                if (!leads.length) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-gray-500">No leads currently in CRM. Use the Lead Scraper to populate.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = '';
+                leads.forEach(l => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-slate-900/40 transition';
+                    const badgeColor = l.status === 'Contacted' ? 'text-blue-400 bg-blue-950/40 border-blue-800' :
+                                       l.status === 'Interested' ? 'text-emerald-400 bg-emerald-950/40 border-emerald-800' :
+                                       'text-gray-400 bg-slate-900 border-slate-700';
+
+                    tr.innerHTML = `
+                        <td class="p-3">
+                            <div class="font-semibold text-white">${l.name}</div>
+                            <div class="text-xs text-gray-400">${l.company || ''}</div>
+                        </td>
+                        <td class="p-3 font-mono text-cyan-300 text-xs">${l.email}</td>
+                        <td class="p-3 text-xs">
+                            ${l.website ? `<a href="${l.website}" target="_blank" class="text-gray-400 hover:text-cyan-400 underline">${l.website.replace('https://', '').replace('http://', '').slice(0, 22)}...</a>` : '-'}
+                        </td>
+                        <td class="p-3">
+                            <span class="px-2 py-0.5 rounded text-xs border ${badgeColor}">${l.status}</span>
+                        </td>
+                        <td class="p-3 text-right space-x-2">
+                            <button onclick="openDraftModal(${l.id})" class="bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 px-2.5 py-1 rounded text-xs hover:bg-cyan-500/30">
+                                <i class="fa-solid fa-wand-magic mr-1"></i> Draft Pitch
+                            </button>
+                            <a href="https://wa.me/923427689885?text=Hi%20${encodeURIComponent(l.name)},%20Harvey%20from%20ZotirLabs%20here..." target="_blank" class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 px-2.5 py-1 rounded text-xs hover:bg-emerald-500/30">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </a>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-400">Failed to load leads: ${err}</td></tr>`;
+            }
+        }
+
+        // Lead Scraper Trigger
+        async function triggerScraper() {
+            const niche = document.getElementById('scrapeNiche').value.trim();
+            const location = document.getElementById('scrapeLocation').value.trim();
+            if (!niche || !location) return alert("Please specify niche and location.");
+
+            const btn = document.getElementById('btnScrape');
+            btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i><span>Scanning & Crawling Websites...</span>';
+            btn.disabled = true;
+
+            const resBox = document.getElementById('scrapeResultsContainer');
+            const list = document.getElementById('scrapeResultsList');
+            resBox.classList.remove('hidden');
+            list.innerHTML = `<div class="text-cyan-400">Searching listings for "${niche} in ${location}" and deep-crawling emails...</div>`;
+
+            try {
+                const res = await fetch('/api/scrape', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({niche, location, max_leads: 8})
+                });
+                const data = await res.json();
+                loadStats();
+
+                let html = `<div class="text-emerald-400 font-bold mb-2">Success! Found ${data.found} prospects, added ${data.added_to_crm} to CRM database.</div>`;
+                data.leads.forEach(l => {
+                    html += `
+                        <div class="border-b border-slate-800 py-1.5 flex justify-between">
+                            <span class="text-white">${l.name} (${l.company})</span>
+                            <span class="text-cyan-400">${l.email || 'Email not found'}</span>
+                        </div>
+                    `;
+                });
+                list.innerHTML = html;
+            } catch (e) {
+                list.innerHTML = `<div class="text-red-400">Scrape failed: ${e}</div>`;
+            } finally {
+                btn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i><span>Find & Crawl Leads</span>';
+                btn.disabled = false;
+            }
+        }
+
+        // Modal Draft & Send
+        async function openDraftModal(leadId) {
+            document.getElementById('emailModal').classList.remove('hidden');
+            document.getElementById('modalRecipient').value = "Generating tailored pitch via Gemini...";
+            document.getElementById('modalSubject').value = "";
+            document.getElementById('modalBody').value = "";
+            document.getElementById('modalLeadId').value = leadId;
+
+            try {
+                const res = await fetch('/api/draft', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({lead_id: leadId})
+                });
+                const data = await res.json();
+                document.getElementById('modalRecipient').value = `${data.lead.name} <${data.lead.email}>`;
+                document.getElementById('modalSubject').value = data.draft.subject;
+                document.getElementById('modalBody').value = data.draft.body;
+            } catch (e) {
+                alert("Error drafting email: " + e);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('emailModal').classList.add('hidden');
+        }
+
+        async function executeSend() {
+            const leadId = parseInt(document.getElementById('modalLeadId').value);
+            const subject = document.getElementById('modalSubject').value;
+            const body = document.getElementById('modalBody').value;
+            const btn = document.getElementById('btnModalSend');
+            btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i><span>Sending via Hostinger...</span>';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/api/send', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({lead_id: leadId, subject, body, sender_alias: "Hostinger"})
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert("Outreach email successfully sent from harvey@zotirlabs.com!");
+                    closeModal();
+                    refreshLeads();
+                } else {
+                    alert("Sending failed: " + data.error);
+                }
+            } catch (e) {
+                alert("Network error: " + e);
+            } finally {
+                btn.innerHTML = '<i class="fa-solid fa-paper-plane text-xs"></i><span>Send Now</span>';
+                btn.disabled = false;
+            }
+        }
+
+        // Inbound Scanner
+        async function scanInbox() {
+            const list = document.getElementById('inboxList');
+            const btn = document.getElementById('btnScanInbox');
+            btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Scanning...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/api/inbox/check');
+                const data = await res.json();
+                if (!data.replies.length) {
+                    list.innerHTML = '<div class="bg-glass border border-slate-800 p-4 rounded-xl text-xs text-gray-400">No new incoming messages in harvey@zotirlabs.com.</div>';
+                } else {
+                    let html = '';
+                    data.replies.forEach(r => {
+                        const intentColor = r.analysis.intent === 'INTERESTED' ? 'text-emerald-400 bg-emerald-950/40' : 'text-cyan-400 bg-cyan-950/40';
+                        html += `
+                            <div class="bg-glass border border-slate-800 p-4 rounded-xl space-y-2">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <div class="font-bold text-white text-sm">${r.from}</div>
+                                        <div class="text-xs text-gray-400 font-mono">${r.subject} | ${r.date}</div>
+                                    </div>
+                                    <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold ${intentColor}">${r.analysis.intent}</span>
+                                </div>
+                                <div class="text-xs text-gray-300 bg-slate-900/60 p-2.5 rounded font-mono">${r.body.slice(0, 200)}...</div>
+                                <div class="text-xs text-cyan-300">
+                                    <b>Recommended Action:</b> ${r.analysis.recommended_action}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    list.innerHTML = html;
+                }
+            } catch (e) {
+                list.innerHTML = `<div class="text-red-400 p-4">Scan error: ${e}</div>`;
+            } finally {
+                btn.innerHTML = '<i class="fa-solid fa-arrows-rotate mr-1"></i> Scan Inbox Now';
+                btn.disabled = false;
+            }
+        }
+
+        // Campaign Loader & Saver
+        async function loadCampaign() {
+            try {
+                const res = await fetch('/api/stats');
+                const data = await res.json();
+                if (data.campaign) {
+                    document.getElementById('campCompany').value = data.campaign.company_name || 'ZotirLabs';
+                    document.getElementById('campOffer').value = data.campaign.offer || '';
+                    document.getElementById('campBooking').value = data.campaign.booking_url || 'https://zotirlabs.com/book';
+                    document.getElementById('campWhatsapp').value = data.campaign.whatsapp_number || '923427689885';
+                    document.getElementById('campSender').value = data.campaign.primary_sender || 'harvey@zotirlabs.com';
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function saveCampaign() {
+            const body = {
+                company_name: document.getElementById('campCompany').value,
+                offer: document.getElementById('campOffer').value,
+                booking_url: document.getElementById('campBooking').value,
+                whatsapp_number: document.getElementById('campWhatsapp').value,
+                primary_sender: document.getElementById('campSender').value,
+                target_niche: 'B2B Services & Agencies'
+            };
+            try {
+                const res = await fetch('/api/campaign', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(body)
+                });
+                alert("Campaign settings updated! Jarvis will now craft outreach around these instructions.");
+                loadStats();
+            } catch (e) {
+                alert("Failed to save: " + e);
+            }
+        }
+    </script>
+</body>
+</html>
