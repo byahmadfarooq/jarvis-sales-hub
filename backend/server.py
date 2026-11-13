@@ -1,7 +1,7 @@
 import os
 import asyncio
 from pathlib import Path
-from fastapi import FastAPI, HTTPException, BackgroundTasks
+from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -12,7 +12,7 @@ from backend.email_engine import EmailEngine
 from backend.scraper_engine import LeadScraper
 from backend.sheets_engine import CRMDatabase
 
-app = FastAPI(title="Jarvis Executive Sales Hub", version="1.0.0")
+app = FastAPI(title="Jarvis Executive Sales Hub", version="1.1.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -74,23 +74,52 @@ async def chat_with_jarvis(req: ChatRequest):
     stats = db.get_stats()
     context = {"stats": stats, "campaign": campaign}
     
-    # Generate text answer from Gemini
-    response_text = gemini.chat_assistant(req.message, context=context)
-    
-    # Generate speech if requested
+    # Generate structured answer (display markdown + fluid spoken summary)
+    res_data = gemini.chat_assistant(req.message, context=context)
+    display_md = res_data.get("display_markdown", "")
+    spoken_text = res_data.get("spoken_summary", "")
+
+    # Generate British neural voice on the fluid spoken summary
     audio_b64 = None
-    if req.with_voice:
+    if req.with_voice and spoken_text:
         try:
-            # Voice clean: truncate to 300 characters for snappy voice replies
-            speech_text = response_text.replace("*", "").replace("#", "")
-            if len(speech_text) > 350:
-                speech_text = speech_text[:350] + "..."
-            audio_b64 = await voice.text_to_speech_base64(speech_text)
+            audio_b64 = await voice.text_to_speech_base64(spoken_text)
         except Exception as e:
             print("Voice generation warning:", e)
 
     return {
-        "reply": response_text,
+        "reply": display_md,
+        "spoken": spoken_text,
+        "audio_base64": audio_b64
+    }
+
+@app.post("/api/voice_chat")
+async def voice_chat_upload(file: UploadFile = File(...)):
+    """Receives direct microphone audio from browser, processes via Gemini, speaks back."""
+    campaign = db.get_campaign()
+    stats = db.get_stats()
+    context = {"stats": stats, "campaign": campaign}
+
+    audio_bytes = await file.read()
+    mime_type = file.content_type or "audio/webm"
+
+    # Multimodal processing with Gemini
+    ai_result = gemini.process_voice_audio(audio_bytes, mime_type=mime_type, context=context)
+    user_transcript = ai_result.get("transcribed_user_text", "Voice message")
+    display_md = ai_result.get("display_markdown", "")
+    spoken_text = ai_result.get("spoken_summary", "")
+
+    audio_b64 = None
+    if spoken_text:
+        try:
+            audio_b64 = await voice.text_to_speech_base64(spoken_text)
+        except Exception as e:
+            print("Voice error:", e)
+
+    return {
+        "user_transcript": user_transcript,
+        "reply": display_md,
+        "spoken": spoken_text,
         "audio_base64": audio_b64
     }
 
@@ -159,6 +188,11 @@ def check_inbox_replies():
 def update_campaign(data: CampaignUpdate):
     db.update_campaign(data.dict())
     return {"success": True, "campaign": db.get_campaign()}
+
+# Mount Static Data directory (for audio files)
+DATA_DIR = Path("D:/jarvis-sales-hub/data")
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+app.mount("/data", StaticFiles(directory=str(DATA_DIR)), name="data")
 
 # Mount Static Frontend
 FRONTEND_DIR = Path("D:/jarvis-sales-hub/frontend")

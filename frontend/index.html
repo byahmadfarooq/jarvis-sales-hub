@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JARVIS // ZotirLabs Sales & Operations Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
@@ -19,9 +20,6 @@
         }
         .glow-cyan {
             box-shadow: 0 0 25px rgba(6, 182, 212, 0.25);
-        }
-        .glow-border {
-            border: 1px solid rgba(6, 182, 212, 0.35);
         }
         .bg-glass {
             background: rgba(14, 23, 42, 0.75);
@@ -42,6 +40,35 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #06b6d4;
         }
+        /* Markdown formatting in chat */
+        .chat-content strong {
+            color: #38bdf8;
+            font-weight: 700;
+        }
+        .chat-content ul {
+            list-style-type: disc;
+            margin-left: 1.25rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .chat-content li {
+            margin-bottom: 0.25rem;
+        }
+        .chat-content p {
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+        .chat-content p:last-child {
+            margin-bottom: 0;
+        }
+        .chat-content code {
+            background: #1e293b;
+            color: #22d3ee;
+            padding: 0.15rem 0.35rem;
+            border-radius: 0.25rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-cyan-500 selection:text-black">
@@ -51,7 +78,7 @@
         <div class="flex items-center space-x-3">
             <div class="w-3 h-3 rounded-full bg-cyan-400 animate-pulse"></div>
             <span class="font-bold tracking-widest text-lg text-white font-mono">JARVIS // <span class="text-cyan-400">ZOTIRLABS</span></span>
-            <span class="text-xs bg-cyan-950 border border-cyan-800 text-cyan-400 px-2 py-0.5 rounded-full font-mono">SYSTEM ACTIVE</span>
+            <span class="text-xs bg-cyan-950 border border-cyan-800 text-cyan-400 px-2 py-0.5 rounded-full font-mono">ONLINE</span>
         </div>
         <div class="flex items-center space-x-6 text-sm">
             <div class="flex items-center space-x-2 text-gray-400">
@@ -155,36 +182,36 @@
                         </div>
 
                         <div class="mt-6 flex space-x-3">
-                            <button onclick="toggleVoiceInput()" id="btnVoiceRecord" class="bg-cyan-500 text-black px-4 py-2 rounded-lg text-sm font-semibold flex items-center space-x-2 hover:bg-cyan-400 transition">
-                                <i class="fa-solid fa-microphone"></i>
+                            <button onclick="toggleMicrophone()" id="btnVoiceRecord" class="bg-cyan-500 text-black px-4 py-2 rounded-lg text-sm font-semibold flex items-center space-x-2 hover:bg-cyan-400 transition">
+                                <i class="fa-solid fa-microphone" id="btnMicIcon"></i>
                                 <span id="recordText">Speak to Jarvis</span>
                             </button>
                             <button onclick="playGreeting()" class="bg-slate-800 text-cyan-400 px-3 py-2 rounded-lg text-sm hover:bg-slate-700 transition" title="Test Voice Output">
                                 <i class="fa-solid fa-volume-high"></i>
                             </button>
                         </div>
-                        <p class="text-xs text-gray-500 mt-3 text-center">Hands-free microphone & British Neural output</p>
+                        <p class="text-xs text-gray-400 mt-3 text-center" id="voiceStatusHint">Click to speak directly. Audio is processed natively.</p>
                     </div>
 
                     <!-- Interactive Executive Chat -->
-                    <div class="col-span-2 bg-glass border border-slate-800 rounded-2xl flex flex-col h-[480px]">
+                    <div class="col-span-2 bg-glass border border-slate-800 rounded-2xl flex flex-col h-[520px]">
                         <div class="px-5 py-3 border-b border-slate-800 flex items-center justify-between text-xs font-mono text-gray-400">
                             <span>CO-PILOT // STRATEGY, PLANNING & PROPOSALS</span>
-                            <span class="text-emerald-400">ONLINE</span>
+                            <span class="text-emerald-400" id="chatEngineStatus">ONLINE (GEMINI 3.5 FLASH)</span>
                         </div>
                         
-                        <div id="chatHistory" class="flex-1 overflow-y-auto p-4 space-y-3 font-sans text-sm">
+                        <div id="chatHistory" class="flex-1 overflow-y-auto p-4 space-y-4 text-sm">
                             <div class="flex items-start space-x-3">
-                                <div class="w-8 h-8 rounded-full bg-cyan-950 border border-cyan-800 flex items-center justify-center text-cyan-400 text-xs">J</div>
-                                <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 max-w-[85%] text-gray-200">
-                                    Good day, sir. All systems for ZotirLabs are online. Hostinger SMTP is authenticated for <b>harvey@zotirlabs.com</b>. How may I assist with our outreach campaign today?
+                                <div class="w-8 h-8 rounded-full bg-cyan-950 border border-cyan-800 flex items-center justify-center text-cyan-400 text-xs flex-shrink-0">J</div>
+                                <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 max-w-[85%] text-gray-200 chat-content">
+                                    Good day, sir. Systems for <strong>ZotirLabs</strong> are fully operational. I am standing by to assist with outreach, campaign adjustments, or lead generation.
                                 </div>
                             </div>
                         </div>
 
                         <form onsubmit="handleChatSubmit(event)" class="p-3 border-t border-slate-800 flex space-x-2">
                             <input type="text" id="chatInput" placeholder="Ask Jarvis to plan outreach, draft an email, or review a proposal..." class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500">
-                            <button type="submit" class="bg-cyan-500 text-black px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-cyan-400 transition flex items-center space-x-1">
+                            <button type="submit" id="btnChatSend" class="bg-cyan-500 text-black px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-cyan-400 transition flex items-center space-x-1">
                                 <span>Send</span>
                                 <i class="fa-solid fa-paper-plane text-xs"></i>
                             </button>
@@ -198,7 +225,7 @@
                 <div class="flex items-center justify-between">
                     <h2 class="text-lg font-bold text-white flex items-center space-x-2">
                         <i class="fa-solid fa-table-list text-cyan-400"></i>
-                        <span>Lead Pipeline & CRM (Google Sheets Linked)</span>
+                        <span>Lead Pipeline & CRM</span>
                     </h2>
                     <div class="flex space-x-2">
                         <button onclick="refreshLeads()" class="bg-slate-800 px-3 py-1.5 rounded-lg text-xs hover:bg-slate-700 text-gray-300">
@@ -218,9 +245,7 @@
                                 <th class="p-3 text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="leadsTableBody" class="divide-y divide-slate-800/60">
-                            <!-- Populated dynamically -->
-                        </tbody>
+                        <tbody id="leadsTableBody" class="divide-y divide-slate-800/60"></tbody>
                     </table>
                 </div>
             </section>
@@ -322,7 +347,7 @@
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                 <h3 class="font-bold text-white flex items-center space-x-2">
                     <i class="fa-solid fa-wand-magic-sparkles text-cyan-400"></i>
-                    <span>Gemini Tailored Outreach Draft</span>
+                    <span>Tailored Cold Pitch</span>
                 </h3>
                 <button onclick="closeModal()" class="text-gray-400 hover:text-white">&times;</button>
             </div>
@@ -347,21 +372,22 @@
                     <button onclick="closeModal()" class="px-4 py-2 rounded-lg text-sm bg-slate-800 text-gray-300 hover:bg-slate-700">Cancel</button>
                     <button onclick="executeSend()" id="btnModalSend" class="px-5 py-2 rounded-lg text-sm font-semibold bg-cyan-500 text-black hover:bg-cyan-400 flex items-center space-x-1">
                         <i class="fa-solid fa-paper-plane text-xs"></i>
-                        <span>Send Now</span>
+                        <span>Send via Hostinger</span>
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Hidden Audio Player for Jarvis Voice -->
+    <!-- Audio Player for Jarvis Voice -->
     <audio id="jarvisAudio"></audio>
 
     <script>
         // State
         let currentTab = 'cockpit';
-        let isRecording = false;
-        let recognition = null;
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let isRecordingAudio = false;
 
         // Initialize HUD Canvas
         const canvas = document.getElementById('jarvisCanvas');
@@ -436,39 +462,81 @@
         }
         loadStats();
 
-        // Speech Recognition Setup
-        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-            recognition = new SpeechRec();
-            recognition.continuous = false;
-            recognition.interimResults = false;
-            recognition.lang = 'en-US';
+        // ------------------ DIRECT MICROPHONE RECORDING ------------------
+        async function toggleMicrophone() {
+            const btn = document.getElementById('btnVoiceRecord');
+            const recordText = document.getElementById('recordText');
+            const hint = document.getElementById('voiceStatusHint');
+            const hud = document.getElementById('hudPulse');
 
-            recognition.onresult = (event) => {
-                const text = event.results[0][0].transcript;
-                document.getElementById('chatInput').value = text;
-                handleChatSubmit(null, text);
-            };
+            if (!isRecordingAudio) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    audioChunks = [];
 
-            recognition.onend = () => {
-                isRecording = false;
-                document.getElementById('recordText').innerText = "Speak to Jarvis";
-                document.getElementById('hudPulse').classList.remove('scale-110');
-            };
+                    mediaRecorder.ondataavailable = (event) => {
+                        if (event.data.size > 0) audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = async () => {
+                        stream.getTracks().forEach(track => track.stop());
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        await uploadAndProcessVoice(audioBlob);
+                    };
+
+                    mediaRecorder.start();
+                    isRecordingAudio = true;
+                    btn.classList.remove('bg-cyan-500', 'text-black');
+                    btn.classList.add('bg-red-500', 'text-white', 'animate-pulse');
+                    recordText.innerText = "Listening... (Click to Send)";
+                    hint.innerText = "Recording your voice... Click button when done.";
+                    hud.classList.add('scale-110', 'border-red-400');
+                } catch (err) {
+                    alert("Microphone access denied or not found. Please allow microphone permissions in your browser.");
+                    console.error("Microphone error:", err);
+                }
+            } else {
+                // Stop recording and send
+                if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                    mediaRecorder.stop();
+                }
+                isRecordingAudio = false;
+                btn.classList.remove('bg-red-500', 'text-white', 'animate-pulse');
+                btn.classList.add('bg-cyan-500', 'text-black');
+                recordText.innerText = "Processing...";
+                hint.innerText = "Transcribing audio and formulating response...";
+                hud.classList.remove('scale-110', 'border-red-400');
+            }
         }
 
-        function toggleVoiceInput() {
-            if (!recognition) {
-                alert("Speech recognition is not supported in this browser. Please type in the chat box.");
-                return;
-            }
-            if (isRecording) {
-                recognition.stop();
-            } else {
-                recognition.start();
-                isRecording = true;
-                document.getElementById('recordText').innerText = "Listening...";
-                document.getElementById('hudPulse').classList.add('scale-110');
+        async function uploadAndProcessVoice(audioBlob) {
+            const formData = new FormData();
+            formData.append('file', audioBlob, 'mic_recording.webm');
+
+            try {
+                const res = await fetch('/api/voice_chat', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                
+                // Show user transcript
+                if (data.user_transcript) {
+                    appendChatBubble('You', data.user_transcript, false);
+                }
+                // Show Jarvis response
+                appendChatBubble('Jarvis', data.reply, true);
+
+                // Play natural British voice
+                if (data.audio_base64) {
+                    playJarvisAudio("data:audio/mp3;base64," + data.audio_base64);
+                }
+            } catch (err) {
+                appendChatBubble('Jarvis', "Pardon me, sir. Voice transmission encountered an error: " + err, true);
+            } finally {
+                document.getElementById('recordText').innerText = "Speak to Jarvis";
+                document.getElementById('voiceStatusHint').innerText = "Click to speak directly. Audio is processed natively.";
             }
         }
 
@@ -480,23 +548,27 @@
         function playJarvisAudio(src) {
             const audio = document.getElementById('jarvisAudio');
             audio.src = src;
-            audio.play();
+            audio.play().catch(e => console.log("Audio autoplay prevented by browser. Click anywhere to allow audio."));
             document.getElementById('hudPulse').classList.add('glow-cyan', 'border-cyan-400');
             audio.onended = () => {
                 document.getElementById('hudPulse').classList.remove('border-cyan-400');
             };
         }
 
-        // Chat Submission
-        async function handleChatSubmit(e, overrideText) {
+        // Chat Submission (Text)
+        async function handleChatSubmit(e) {
             if (e) e.preventDefault();
             const input = document.getElementById('chatInput');
-            const message = overrideText || input.value.trim();
+            const message = input.value.trim();
             if (!message) return;
-            if (!overrideText) input.value = '';
+            input.value = '';
 
             // Append user bubble
             appendChatBubble('You', message, false);
+
+            const sendBtn = document.getElementById('btnChatSend');
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i>';
 
             try {
                 const res = await fetch('/api/chat', {
@@ -512,20 +584,30 @@
                 }
             } catch (err) {
                 appendChatBubble('Jarvis', "Pardon me, sir. I encountered a communication error: " + err, true);
+            } finally {
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = '<span>Send</span><i class="fa-solid fa-paper-plane text-xs"></i>';
             }
         }
 
-        function appendChatBubble(sender, text, isJarvis) {
+        function appendChatBubble(sender, rawContent, isJarvis) {
             const history = document.getElementById('chatHistory');
             const wrap = document.createElement('div');
             wrap.className = isJarvis ? 'flex items-start space-x-3' : 'flex items-start space-x-3 justify-end';
 
-            const formattedText = text.replace(/\n/g, '<br>');
+            // Parse clean Markdown using marked.js
+            let parsedHtml = rawContent;
+            if (window.marked) {
+                parsedHtml = marked.parse(rawContent);
+            } else {
+                parsedHtml = rawContent.replace(/\n/g, '<br>');
+            }
+
             wrap.innerHTML = isJarvis ? `
                 <div class="w-8 h-8 rounded-full bg-cyan-950 border border-cyan-800 flex items-center justify-center text-cyan-400 text-xs flex-shrink-0">J</div>
-                <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 max-w-[85%] text-gray-200">${formattedText}</div>
+                <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 max-w-[85%] text-gray-200 chat-content">${parsedHtml}</div>
             ` : `
-                <div class="bg-cyan-950/80 border border-cyan-800/60 rounded-xl p-3 max-w-[85%] text-white">${formattedText}</div>
+                <div class="bg-cyan-950/80 border border-cyan-800/60 rounded-xl p-3 max-w-[85%] text-white">${parsedHtml}</div>
             `;
             history.appendChild(wrap);
             history.scrollTop = history.scrollHeight;
@@ -541,7 +623,7 @@
                 loadStats();
 
                 if (!leads.length) {
-                    tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-gray-500">No leads currently in CRM. Use the Lead Scraper to populate.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-gray-500">No leads currently in CRM. Use the Lead Scraper tab to find and add prospects.</td></tr>';
                     return;
                 }
 
@@ -675,7 +757,7 @@
             } catch (e) {
                 alert("Network error: " + e);
             } finally {
-                btn.innerHTML = '<i class="fa-solid fa-paper-plane text-xs"></i><span>Send Now</span>';
+                btn.innerHTML = '<i class="fa-solid fa-paper-plane text-xs"></i><span>Send via Hostinger</span>';
                 btn.disabled = false;
             }
         }
