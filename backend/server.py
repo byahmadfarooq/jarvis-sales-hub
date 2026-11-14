@@ -214,8 +214,9 @@ def update_campaign(data: CampaignUpdate):
     return {"success": True, "campaign": db.get_campaign()}
 
 # Static File Mounting
-FRONTEND_DIR = Path("D:/jarvis-sales-hub/frontend")
-DATA_DIR = Path("D:/jarvis-sales-hub/data")
+BASE_DIR = Path(__file__).resolve().parent.parent
+FRONTEND_DIR = BASE_DIR / "frontend"
+DATA_DIR = Path("/tmp/data") if os.environ.get("VERCEL") else BASE_DIR / "data"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 app.mount("/assets", StaticFiles(directory=str(FRONTEND_DIR / "assets")), name="assets")

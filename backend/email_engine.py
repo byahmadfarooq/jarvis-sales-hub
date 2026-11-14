@@ -7,9 +7,12 @@ from email.header import decode_header
 from pathlib import Path
 from datetime import datetime
 
+import os
+
 def get_env():
-    env_file = Path("D:/jarvis-sales-hub/.env")
-    env = {}
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    env_file = BASE_DIR / ".env"
+    env = dict(os.environ)
     if env_file.exists():
         for line in env_file.read_text(encoding="utf-8").splitlines():
             line = line.strip()

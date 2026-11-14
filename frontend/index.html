@@ -5,9 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zotir Labs &mdash; Executive Operations &amp; Outreach Engine</title>
     
-    <!-- Zotir Labs Elite Typography -->
-    <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700,600,500&f[]=satoshi@700,500,400&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Authentic Favicon from Brand Monogram -->
+    <link rel="icon" type="image/svg+xml" href="/assets/zotir-labs_monogram_transparent_on-dark.svg">
+    
+    <!-- Authentic Zotir Labs Typography: Bricolage Grotesque (Headings) + Manrope (Body/UI) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;600;700;800&family=Manrope:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -15,62 +19,124 @@
     
     <style>
         :root {
-            --font-heading: 'Cabinet Grotesk', -apple-system, sans-serif;
-            --font-body: 'Instrument Sans', -apple-system, sans-serif;
-            --font-caps: 'Satoshi', sans-serif;
-            --c-dark-base: #07090D;
-            --c-dark-card: #0E1219;
-            --c-dark-border: #1C2433;
-            --c-blue: #153DE8;
+            --navy: #14213D;
+            --cream: #F4EDE0;
+            --coral: #FF6B5B;
+            --soft: #797D86;
+            --navy45: #8F9197;
+            --card-bg: rgba(14, 23, 43, 0.92);
+            --card-border: rgba(244, 237, 224, 0.12);
+            --card-hover: rgba(244, 237, 224, 0.04);
         }
 
         body {
-            font-family: var(--font-body);
-            background-color: var(--c-dark-base);
-            color: #E2E8F0;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 500;
+            background-color: var(--navy);
+            color: var(--cream);
             -webkit-font-smoothing: antialiased;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        h1, h2, h3, .font-heading {
-            font-family: var(--font-heading);
-            letter-spacing: -0.02em;
+        /* Fine vertical scan lines: dense texture from Zotir Social / Brand guidelines */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            background-image: repeating-linear-gradient(90deg, rgba(244, 237, 224, 0.035) 0 1px, transparent 1px 11px);
         }
 
-        .font-caps {
-            font-family: var(--font-caps);
-            letter-spacing: 0.05em;
+        /* Structural 150px column grid lines */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            background-image: linear-gradient(90deg, rgba(244, 237, 224, 0.045) 0 1px, transparent 1px);
+            background-size: 150px 100%;
+            background-position: 90px 0;
+        }
+
+        /* Signature Zotir warm coral ambient bloom */
+        .ambient-bloom {
+            position: fixed;
+            right: -120px;
+            bottom: -160px;
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(circle, rgba(255, 107, 91, 0.18) 0%, rgba(255, 107, 91, 0.05) 45%, transparent 70%);
+        }
+
+        h1, h2, h3, .font-bricolage {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            letter-spacing: -0.03em;
         }
 
         .font-mono {
             font-family: 'JetBrains Mono', monospace;
         }
 
-        .bg-card {
-            background-color: var(--c-dark-card);
-            border: 1px solid var(--c-dark-border);
+        .kicker {
+            font-family: 'Manrope', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--navy45);
+        }
+
+        .bg-zotir-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 40px -15px rgba(8, 14, 30, 0.5);
         }
 
         .border-zotir {
-            border-color: var(--c-dark-border);
+            border-color: var(--card-border);
         }
 
-        .btn-zotir-primary {
-            background-color: var(--c-blue);
-            color: #FFFFFF;
-            font-family: var(--font-body);
+        /* Signature Coral Action Button */
+        .btn-coral {
+            background-color: var(--coral);
+            color: var(--navy);
+            font-family: 'Manrope', sans-serif;
+            font-weight: 700;
+            border-radius: 9999px;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-coral:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(255, 107, 91, 0.35);
+            background-color: #ff7d6f;
+        }
+
+        .btn-ghost-cream {
+            background-color: rgba(244, 237, 224, 0.05);
+            color: var(--cream);
+            border: 1px solid var(--card-border);
+            border-radius: 9999px;
             font-weight: 600;
             transition: all 0.15s ease;
         }
-        .btn-zotir-primary:hover {
-            background-color: #264df5;
-            box-shadow: 0 4px 14px rgba(21, 61, 232, 0.35);
+        .btn-ghost-cream:hover {
+            background-color: rgba(244, 237, 224, 0.12);
+            border-color: rgba(244, 237, 224, 0.25);
         }
 
-        /* Claude-style markdown chat styling */
+        /* Claude-style interactive markdown chat styling */
         .chat-content p {
             margin-bottom: 0.65rem;
             line-height: 1.6;
-            color: #E2E8F0;
+            color: #EDE4D5;
         }
         .chat-content p:last-child {
             margin-bottom: 0;
@@ -87,210 +153,245 @@
         }
         .chat-content li {
             position: relative;
-            padding-left: 1.25rem;
+            padding-left: 1.35rem;
             margin-bottom: 0.35rem;
             line-height: 1.5;
-            color: #CBD5E1;
+            color: #D6CDBF;
         }
         .chat-content li::before {
             content: "\2022";
-            color: #3B6BFF;
+            color: var(--coral);
             font-weight: bold;
-            font-size: 1.1em;
+            font-size: 1.25em;
             position: absolute;
             left: 0.25rem;
             top: -0.05rem;
         }
         .chat-content code {
-            background: #161C26;
-            color: #93C5FD;
-            padding: 0.15rem 0.4rem;
+            background: rgba(0, 0, 0, 0.4);
+            color: #FF8F82;
+            padding: 0.15rem 0.45rem;
             border-radius: 4px;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.85em;
-            border: 1px solid #1E293B;
+            border: 1px solid rgba(244, 237, 224, 0.1);
         }
 
         /* Suggestion Chips */
         .chip-pill {
-            background: #111722;
-            border: 1px solid #1E293B;
-            color: #94A3B8;
+            background: rgba(244, 237, 224, 0.05);
+            border: 1px solid var(--card-border);
+            color: #C5BCAD;
             font-size: 0.75rem;
-            padding: 0.35rem 0.75rem;
+            font-weight: 600;
+            padding: 0.45rem 0.95rem;
             border-radius: 9999px;
             cursor: pointer;
             transition: all 0.15s ease;
         }
         .chip-pill:hover {
-            background: #153DE8;
-            border-color: #153DE8;
-            color: #FFFFFF;
+            background: var(--coral);
+            border-color: var(--coral);
+            color: var(--navy);
             transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 107, 91, 0.25);
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(244, 237, 224, 0.15);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 107, 91, 0.4);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col selection:bg-blue-600 selection:text-white">
+<body class="selection:bg-[#FF6B5B] selection:text-[#14213D] flex flex-col">
 
-    <!-- Professional Zotir Labs Header -->
-    <header class="bg-[#0A0D13] border-b border-zotir px-6 py-3.5 flex items-center justify-between sticky top-0 z-50">
+    <!-- Ambient Coral Glow -->
+    <div class="ambient-bloom"></div>
+
+    <!-- Official Zotir Labs Header -->
+    <header class="bg-[#0B1324]/90 backdrop-blur-md border-b border-zotir px-6 py-3.5 flex items-center justify-between sticky top-0 z-50">
         <div class="flex items-center space-x-4">
-            <img src="/assets/zotir-logo.svg" alt="Zotir Labs" class="h-8 object-contain">
+            <a href="/" class="flex items-center">
+                <img src="/assets/zotir-labs_logo-horizontal_transparent_on-dark.svg" alt="zotir labs" class="h-8 object-contain" onerror="this.outerHTML='<div class=\'flex items-center space-x-2.5\'><svg viewBox=\'0 0 56 44\' class=\'w-6 h-5\'><path d=\'M22 4H52L46 14H16Z\' fill=\'#F4EDE0\'/><path d=\'M16 17H46L40 27H10Z\' fill=\'#FF6B5B\'/><path d=\'M10 30H40L34 40H4Z\' fill=\'#797D86\'/></svg><span class=\'font-bricolage font-extrabold text-xl text-white tracking-tight\'>zotir <span class=\'text-[#FF6B5B]\'>labs</span></span></div>'">
+            </a>
             <span class="text-slate-600 text-sm">/</span>
-            <span class="text-xs font-caps tracking-wider text-slate-400 font-semibold uppercase">Executive AI Engine</span>
+            <span class="kicker text-[10px]">Executive Sales Hub</span>
         </div>
 
-        <div class="flex items-center space-x-6 text-xs">
-            <div class="flex items-center space-x-2 text-slate-400">
-                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                <span class="font-mono text-slate-300">harvey@zotirlabs.com</span>
+        <div class="flex items-center space-x-5 text-xs">
+            <div class="flex items-center space-x-2 text-[#8F9197]">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span class="font-mono text-[#F4EDE0]" id="senderDisplay">harvey@zotirlabs.com</span>
             </div>
-            <a href="https://zotirlabs.com/book" target="_blank" class="text-slate-400 hover:text-white flex items-center space-x-1.5 transition">
-                <i class="fa-solid fa-calendar-check text-blue-400"></i>
+            <a href="https://zotirlabs.com/book" target="_blank" class="text-[#C5BCAD] hover:text-[#FF6B5B] flex items-center space-x-1.5 transition font-semibold">
+                <i class="fa-solid fa-calendar-check text-[#FF6B5B]"></i>
                 <span class="underline decoration-slate-700 underline-offset-4">zotirlabs.com/book</span>
             </a>
-            <a href="https://wa.me/923427689885" target="_blank" class="bg-emerald-950/60 text-emerald-400 border border-emerald-800/40 px-3 py-1.5 rounded-md hover:bg-emerald-900/60 flex items-center space-x-1.5 transition">
+            <a href="https://wa.me/923427689885" target="_blank" class="bg-emerald-950/60 text-emerald-400 border border-emerald-800/40 px-3.5 py-1.5 rounded-full hover:bg-emerald-900/60 flex items-center space-x-1.5 transition">
                 <i class="fa-brands fa-whatsapp"></i>
-                <span class="font-semibold">WhatsApp Bridge</span>
+                <span class="font-semibold">+92 342 768 9885</span>
             </a>
         </div>
     </header>
 
-    <!-- App Layout -->
-    <div class="flex-1 flex overflow-hidden">
+    <!-- App Main Layout -->
+    <div class="flex-1 flex overflow-hidden relative z-10">
         
         <!-- Sidebar Navigation -->
-        <aside class="w-64 bg-[#0A0D13] border-r border-zotir p-4 flex flex-col justify-between">
-            <nav class="space-y-1">
-                <button onclick="switchTab('cockpit')" id="tab-cockpit" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition bg-blue-600/10 text-blue-400 border border-blue-500/30">
+        <aside class="w-64 bg-[#0B1324]/80 backdrop-blur-md border-r border-zotir p-4 flex flex-col justify-between">
+            <nav class="space-y-1.5">
+                <button onclick="switchTab('cockpit')" id="tab-cockpit" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition bg-[#FF6B5B]/15 text-[#FF6B5B] border border-[#FF6B5B]/30">
                     <i class="fa-solid fa-bolt w-4 text-center"></i>
                     <span>Executive Co-Pilot</span>
                 </button>
-                <button onclick="switchTab('leads')" id="tab-leads" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition text-slate-400 hover:text-white hover:bg-[#121722]">
+                <button onclick="switchTab('leads')" id="tab-leads" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition text-[#8F9197] hover:text-white hover:bg-[#111C33]">
                     <i class="fa-solid fa-address-book w-4 text-center"></i>
-                    <span>Pipeline & CRM</span>
+                    <span>Pipeline &amp; CRM</span>
                 </button>
-                <button onclick="switchTab('scraper')" id="tab-scraper" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition text-slate-400 hover:text-white hover:bg-[#121722]">
+                <button onclick="switchTab('scraper')" id="tab-scraper" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition text-[#8F9197] hover:text-white hover:bg-[#111C33]">
                     <i class="fa-solid fa-bullseye w-4 text-center"></i>
                     <span>Lead Prospector</span>
                 </button>
-                <button onclick="switchTab('inbox')" id="tab-inbox" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition text-slate-400 hover:text-white hover:bg-[#121722]">
+                <button onclick="switchTab('inbox')" id="tab-inbox" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition text-[#8F9197] hover:text-white hover:bg-[#111C33]">
                     <i class="fa-solid fa-inbox w-4 text-center"></i>
                     <span>Inbound Intelligence</span>
                 </button>
-                <button onclick="switchTab('campaign')" id="tab-campaign" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition text-slate-400 hover:text-white hover:bg-[#121722]">
+                <button onclick="switchTab('campaign')" id="tab-campaign" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition text-[#8F9197] hover:text-white hover:bg-[#111C33]">
                     <i class="fa-solid fa-sliders w-4 text-center"></i>
-                    <span>Strategy & Pitch</span>
+                    <span>Strategy &amp; Pitch</span>
                 </button>
             </nav>
 
-            <div class="bg-card p-3 rounded-lg text-[11px] space-y-1.5 border border-zotir">
-                <div class="flex justify-between text-slate-400">
-                    <span>Engine</span>
-                    <span class="text-blue-400 font-mono">Gemini 3.5 Flash</span>
+            <div class="bg-zotir-card p-3.5 rounded-2xl text-[11px] space-y-1.5 border-zotir">
+                <div class="kicker text-[10px] mb-1">Architecture</div>
+                <div class="flex justify-between text-[#8F9197]">
+                    <span>Reasoning</span>
+                    <span class="text-[#FF6B5B] font-mono">Gemini 3.5 Flash</span>
                 </div>
-                <div class="flex justify-between text-slate-400">
-                    <span>Vocal Unit</span>
-                    <span class="text-slate-200 font-mono">British Ryan Neural</span>
+                <div class="flex justify-between text-[#8F9197]">
+                    <span>Voice Unit</span>
+                    <span class="text-[#F4EDE0] font-mono">British Ryan</span>
                 </div>
-                <div class="flex justify-between text-slate-400">
-                    <span>Outreach</span>
-                    <span class="text-emerald-400 font-mono">Hostinger SSL</span>
+                <div class="flex justify-between text-[#8F9197]">
+                    <span>Outbound</span>
+                    <span class="text-emerald-400 font-mono">Hostinger SMTP</span>
                 </div>
             </div>
         </aside>
 
-        <!-- Main Content Area -->
+        <!-- Main Workspace -->
         <main class="flex-1 overflow-y-auto p-6 space-y-6">
 
-            <!-- Executive Metric Cards -->
+            <!-- Metric Cards -->
             <div class="grid grid-cols-5 gap-3.5">
-                <div class="bg-card p-4 rounded-xl">
-                    <div class="text-slate-400 text-[11px] font-caps uppercase tracking-wider">Total Pipeline</div>
-                    <div class="text-2xl font-heading font-bold text-white mt-1" id="statTotalLeads">0</div>
+                <div class="bg-zotir-card p-4 rounded-2xl">
+                    <div class="kicker">Total Pipeline</div>
+                    <div class="text-2xl font-bricolage font-bold text-[#F4EDE0] mt-1" id="statTotalLeads">5</div>
                 </div>
-                <div class="bg-card p-4 rounded-xl">
-                    <div class="text-slate-400 text-[11px] font-caps uppercase tracking-wider">Prospects Ready</div>
-                    <div class="text-2xl font-heading font-bold text-blue-400 mt-1" id="statNewLeads">0</div>
+                <div class="bg-zotir-card p-4 rounded-2xl">
+                    <div class="kicker">Prospects Ready</div>
+                    <div class="text-2xl font-bricolage font-bold text-[#FF6B5B] mt-1" id="statNewLeads">0</div>
                 </div>
-                <div class="bg-card p-4 rounded-xl">
-                    <div class="text-slate-400 text-[11px] font-caps uppercase tracking-wider">Outreach Sent</div>
-                    <div class="text-2xl font-heading font-bold text-slate-200 mt-1" id="statContacted">0</div>
+                <div class="bg-zotir-card p-4 rounded-2xl">
+                    <div class="kicker">Outreach Sent</div>
+                    <div class="text-2xl font-bricolage font-bold text-emerald-400 mt-1" id="statContacted">5</div>
                 </div>
-                <div class="bg-card p-4 rounded-xl">
-                    <div class="text-slate-400 text-[11px] font-caps uppercase tracking-wider">Positive Replies</div>
-                    <div class="text-2xl font-heading font-bold text-amber-400 mt-1" id="statReplied">0</div>
+                <div class="bg-zotir-card p-4 rounded-2xl">
+                    <div class="kicker">Replies Received</div>
+                    <div class="text-2xl font-bricolage font-bold text-amber-300 mt-1" id="statReplied">0</div>
                 </div>
-                <div class="bg-card p-4 rounded-xl border-blue-900/40">
-                    <div class="text-slate-400 text-[11px] font-caps uppercase tracking-wider">Reviews Booked</div>
-                    <div class="text-2xl font-heading font-bold text-emerald-400 mt-1" id="statBooked">0</div>
+                <div class="bg-zotir-card p-4 rounded-2xl border-[#FF6B5B]/30">
+                    <div class="kicker text-[#FF6B5B]">Reviews Booked</div>
+                    <div class="text-2xl font-bricolage font-bold text-[#FF6B5B] mt-1" id="statBooked">0</div>
                 </div>
             </div>
 
-            <!-- VIEW 1: CO-PILOT CHAT -->
+            <!-- VIEW 1: CO-PILOT -->
             <section id="view-cockpit" class="space-y-4">
                 <div class="grid grid-cols-3 gap-6">
                     
                     <!-- Voice Interaction Module -->
-                    <div class="col-span-1 bg-card rounded-2xl p-6 flex flex-col items-center justify-between min-h-[460px]">
+                    <div class="col-span-1 bg-zotir-card rounded-2xl p-6 flex flex-col items-center justify-between min-h-[470px]">
                         <div class="text-center">
-                            <span class="text-[11px] font-caps tracking-widest text-blue-400 font-bold uppercase">Executive Voice Unit</span>
-                            <h3 class="font-heading font-bold text-base text-white mt-1">Speak Directly with Jarvis</h3>
+                            <span class="kicker text-[#FF6B5B]">Hands-Free Voice Hub</span>
+                            <h3 class="font-bricolage font-bold text-lg text-[#F4EDE0] mt-1">Direct Voice with Jarvis</h3>
                         </div>
 
-                        <!-- Refined Minimal Sound Visualizer -->
+                        <!-- Refined Zotir Coral Audio Orb with Monogram Center -->
                         <div class="relative w-44 h-44 flex items-center justify-center">
-                            <div id="vocalRingOuter" class="absolute inset-0 rounded-full border border-blue-500/20 transition-all duration-300"></div>
-                            <div id="vocalRingInner" class="w-28 h-28 rounded-full bg-[#111724] border border-blue-500/40 flex items-center justify-center transition-all duration-300 shadow-lg shadow-blue-500/10">
-                                <i class="fa-solid fa-microphone text-2xl text-blue-400" id="micIcon"></i>
+                            <div id="vocalRingOuter" class="absolute inset-0 rounded-full border border-[#FF6B5B]/20 transition-all duration-300"></div>
+                            <div id="vocalRingInner" class="w-32 h-32 rounded-full bg-[#0E172B] border border-[#FF6B5B]/40 flex flex-col items-center justify-center transition-all duration-300 shadow-xl shadow-[#FF6B5B]/10 cursor-pointer" onclick="toggleMicrophone()">
+                                <svg viewBox="0 0 56 44" class="w-10 h-8 mb-1">
+                                    <path d="M22 4H52L46 14H16Z" fill="#F4EDE0"/>
+                                    <path d="M16 17H46L40 27H10Z" fill="#FF6B5B"/>
+                                    <path d="M10 30H40L34 40H4Z" fill="#797D86"/>
+                                </svg>
+                                <span class="text-[10px] font-mono text-[#FF6B5B] tracking-wider" id="orbStateText">READY</span>
                             </div>
                         </div>
 
                         <div class="w-full space-y-2">
-                            <button onclick="toggleMicrophone()" id="btnVoiceRecord" class="w-full btn-zotir-primary py-2.5 rounded-lg text-xs tracking-wide flex items-center justify-center space-x-2">
+                            <button onclick="toggleMicrophone()" id="btnVoiceRecord" class="w-full btn-coral py-2.5 text-xs tracking-wide flex items-center justify-center space-x-2">
                                 <i class="fa-solid fa-microphone"></i>
                                 <span id="recordText">Hold or Click to Speak</span>
                             </button>
-                            <button onclick="playGreeting()" class="w-full bg-[#141A26] border border-zotir text-slate-300 py-2 rounded-lg text-xs hover:bg-[#1B2230] transition flex items-center justify-center space-x-2">
-                                <i class="fa-solid fa-volume-high text-blue-400"></i>
-                                <span>Play Voice Brief</span>
+                            <button onclick="playGreeting()" class="w-full btn-ghost-cream py-2 text-xs flex items-center justify-center space-x-2">
+                                <i class="fa-solid fa-volume-high text-[#FF6B5B]"></i>
+                                <span>Play Executive Audio Brief</span>
                             </button>
-                            <p class="text-[11px] text-slate-500 text-center" id="voiceStatusHint">Direct microphone recording. Sub-second response.</p>
+                            <p class="text-[11px] text-[#8F9197] text-center" id="voiceStatusHint">Direct microphone recording. Sub-second response.</p>
                         </div>
                     </div>
 
                     <!-- Interactive Claude-Style Chat -->
-                    <div class="col-span-2 bg-card rounded-2xl flex flex-col h-[500px]">
-                        <div class="px-5 py-3 border-b border-zotir flex items-center justify-between text-xs text-slate-400">
-                            <div class="flex items-center space-x-2">
-                                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-                                <span class="font-heading font-bold text-white text-sm">Strategic Dialogue</span>
+                    <div class="col-span-2 bg-zotir-card rounded-2xl flex flex-col h-[500px]">
+                        <div class="px-5 py-3.5 border-b border-zotir flex items-center justify-between text-xs text-[#8F9197]">
+                            <div class="flex items-center space-x-2.5">
+                                <span class="w-2 h-2 rounded-full bg-[#FF6B5B]"></span>
+                                <span class="font-bricolage font-bold text-[#F4EDE0] text-sm">Strategic Dialogue</span>
                             </div>
-                            <span class="font-mono text-slate-500">LATENCY: ~0.8s</span>
+                            <span class="font-mono text-[#8F9197] text-[11px]">LATENCY: ~0.8s</span>
                         </div>
 
                         <!-- Chat Feed -->
                         <div id="chatHistory" class="flex-1 overflow-y-auto p-5 space-y-4 text-sm">
                             <div class="flex items-start space-x-3">
-                                <div class="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">Z</div>
-                                <div class="bg-[#121722] border border-zotir rounded-xl p-4 max-w-[85%] text-slate-200 chat-content">
-                                    Good day, Ahmad. I have calibrated our outreach for <strong>ZotirLabs</strong>. Harvey's inbox is verified, and our core offer remains the <strong>Free 5-Minute Website Review</strong> targeting businesses with underperforming mobile traffic. How shall we direct today's pipeline?
+                                <div class="w-7 h-7 rounded-full bg-[#0E172B] border border-[#FF6B5B]/40 flex items-center justify-center flex-shrink-0">
+                                    <svg viewBox="0 0 56 44" class="w-4 h-3.5">
+                                        <path d="M22 4H52L46 14H16Z" fill="#F4EDE0"/>
+                                        <path d="M16 17H46L40 27H10Z" fill="#FF6B5B"/>
+                                        <path d="M10 30H40L34 40H4Z" fill="#797D86"/>
+                                    </svg>
+                                </div>
+                                <div class="bg-[#111C33] border border-zotir rounded-2xl p-4 max-w-[85%] text-[#F4EDE0] chat-content shadow-sm">
+                                    Good day, Ahmad. All <strong>5 initial outreach emails</strong> have been successfully delivered from <strong>harvey@zotirlabs.com</strong> and archived in your Hostinger Sent folder. Our core proposition remains: <em>"Websites that bring enquiries with zero maintenance."</em> How shall we direct the next wave of prospects?
                                 </div>
                             </div>
                         </div>
 
                         <!-- Interactive Action Suggestions (Claude Style) -->
                         <div id="chipContainer" class="px-4 py-2 border-t border-zotir/60 flex items-center space-x-2 overflow-x-auto">
-                            <button onclick="sendQuickPrompt('Draft a cold outreach campaign for Dental clinics in Columbus')" class="chip-pill whitespace-nowrap"><i class="fa-solid fa-pen-nib text-blue-400 mr-1.5"></i>Draft Dental Campaign</button>
-                            <button onclick="sendQuickPrompt('What is our current lead pipeline diagnostic?')" class="chip-pill whitespace-nowrap"><i class="fa-solid fa-chart-simple text-blue-400 mr-1.5"></i>Pipeline Diagnostic</button>
-                            <button onclick="sendQuickPrompt('Help me refine our value pitch to increase booking rate')" class="chip-pill whitespace-nowrap"><i class="fa-solid fa-bullseye text-blue-400 mr-1.5"></i>Refine Value Pitch</button>
-                            <button onclick="sendQuickPrompt('Scan inbox for any new replies from prospects')" class="chip-pill whitespace-nowrap"><i class="fa-solid fa-inbox text-blue-400 mr-1.5"></i>Scan Replies</button>
+                            <button onclick="sendQuickPrompt('Draft a cold outreach campaign for Dental clinics in Columbus')" class="chip-pill whitespace-nowrap"><i class="fa-solid fa-pen-nib text-[#FF6B5B] mr-1.5"></i>Draft Dental Campaign</button>
+                            <button onclick="sendQuickPrompt('What is our current lead pipeline diagnostic?')" class="chip-pill whitespace-nowrap"><i class="fa-solid fa-chart-simple text-[#FF6B5B] mr-1.5"></i>Pipeline Diagnostic</button>
+                            <button onclick="sendQuickPrompt('Help me refine our value pitch to increase booking rate')" class="chip-pill whitespace-nowrap"><i class="fa-solid fa-bullseye text-[#FF6B5B] mr-1.5"></i>Refine Value Pitch</button>
+                            <button onclick="sendQuickPrompt('Scan inbox for any new replies from prospects')" class="chip-pill whitespace-nowrap"><i class="fa-solid fa-inbox text-[#FF6B5B] mr-1.5"></i>Scan Replies</button>
                         </div>
 
                         <!-- Input Field -->
                         <form onsubmit="handleChatSubmit(event)" class="p-3 border-t border-zotir flex space-x-2">
-                            <input type="text" id="chatInput" placeholder="Command Jarvis to plan outreach, draft proposals, or audit leads..." class="flex-1 bg-[#121722] border border-zotir rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500">
-                            <button type="submit" id="btnChatSend" class="btn-zotir-primary px-5 py-2.5 rounded-lg text-xs flex items-center space-x-1.5">
+                            <input type="text" id="chatInput" placeholder="Command Jarvis to plan outreach, draft proposals, or audit leads..." class="flex-1 bg-[#0A1222] border border-zotir rounded-xl px-4 py-2.5 text-sm text-[#F4EDE0] placeholder-[#8F9197] focus:outline-none focus:border-[#FF6B5B]">
+                            <button type="submit" id="btnChatSend" class="btn-coral px-5 py-2.5 text-xs flex items-center space-x-1.5">
                                 <span>Send</span>
                                 <i class="fa-solid fa-paper-plane text-xs"></i>
                             </button>
@@ -304,19 +405,19 @@
             <section id="view-leads" class="hidden space-y-4">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="font-heading font-bold text-lg text-white">Prospect Pipeline</h2>
-                        <p class="text-xs text-slate-400">Targeted businesses ready for review outreach. Status updates instantaneously.</p>
+                        <h2 class="font-bricolage font-bold text-xl text-[#F4EDE0]">Prospect Pipeline</h2>
+                        <p class="text-xs text-[#8F9197]">Targeted businesses ready for review outreach. Status updates instantaneously.</p>
                     </div>
-                    <button onclick="refreshLeads()" class="bg-[#121722] border border-zotir px-3.5 py-1.5 rounded-lg text-xs hover:bg-[#1A2130] text-slate-300">
+                    <button onclick="refreshLeads()" class="btn-ghost-cream px-4 py-2 text-xs">
                         <i class="fa-solid fa-rotate mr-1.5"></i> Sync CRM
                     </button>
                 </div>
 
-                <div class="bg-card rounded-xl overflow-hidden">
+                <div class="bg-zotir-card rounded-2xl overflow-hidden">
                     <table class="w-full text-left text-sm">
-                        <thead class="bg-[#0A0D13] text-slate-400 font-caps text-[11px] uppercase tracking-wider border-b border-zotir">
+                        <thead class="bg-[#0A1222] text-[#8F9197] font-semibold text-[11px] uppercase tracking-wider border-b border-zotir">
                             <tr>
-                                <th class="p-3.5">Firm & Contact</th>
+                                <th class="p-3.5">Firm &amp; Contact</th>
                                 <th class="p-3.5">Direct Email</th>
                                 <th class="p-3.5">Website Domain</th>
                                 <th class="p-3.5">Status</th>
@@ -330,32 +431,32 @@
 
             <!-- VIEW 3: LEAD PROSPECTOR -->
             <section id="view-scraper" class="hidden space-y-6">
-                <div class="bg-card rounded-2xl p-6 space-y-4">
+                <div class="bg-zotir-card rounded-2xl p-6 space-y-4">
                     <div>
-                        <h2 class="font-heading font-bold text-lg text-white">Targeted B2B Prospector</h2>
-                        <p class="text-xs text-slate-400">Search high-ticket local service firms, crawl their digital footprint, and auto-populate direct emails.</p>
+                        <h2 class="font-bricolage font-bold text-xl text-[#F4EDE0]">Targeted B2B Prospector</h2>
+                        <p class="text-xs text-[#8F9197]">Search high-ticket local service firms, crawl their digital footprint, and auto-populate direct emails.</p>
                     </div>
 
                     <div class="grid grid-cols-3 gap-4 pt-2">
                         <div>
-                            <label class="block text-xs font-caps text-slate-400 mb-1">Target Niche</label>
-                            <input type="text" id="scrapeNiche" value="Commercial Law Firms" placeholder="e.g. Dental clinics, Architects, Accountants" class="w-full bg-[#121722] border border-zotir rounded-lg px-3.5 py-2 text-sm text-white focus:border-blue-500">
+                            <label class="block text-xs font-semibold text-[#C5BCAD] mb-1">Target Niche</label>
+                            <input type="text" id="scrapeNiche" value="Commercial Law Firms" placeholder="e.g. Dental clinics, Architects, Accountants" class="w-full bg-[#0A1222] border border-zotir rounded-xl px-3.5 py-2.5 text-sm text-[#F4EDE0] focus:border-[#FF6B5B]">
                         </div>
                         <div>
-                            <label class="block text-xs font-caps text-slate-400 mb-1">Market Location</label>
-                            <input type="text" id="scrapeLocation" value="London" placeholder="e.g. Manchester, Dubai, Austin" class="w-full bg-[#121722] border border-zotir rounded-lg px-3.5 py-2 text-sm text-white focus:border-blue-500">
+                            <label class="block text-xs font-semibold text-[#C5BCAD] mb-1">Market Location</label>
+                            <input type="text" id="scrapeLocation" value="London" placeholder="e.g. Manchester, Dubai, Austin" class="w-full bg-[#0A1222] border border-zotir rounded-xl px-3.5 py-2.5 text-sm text-[#F4EDE0] focus:border-[#FF6B5B]">
                         </div>
                         <div class="flex items-end">
-                            <button onclick="triggerScraper()" id="btnScrape" class="w-full btn-zotir-primary py-2.5 rounded-lg text-xs flex items-center justify-center space-x-2">
+                            <button onclick="triggerScraper()" id="btnScrape" class="w-full btn-coral py-2.5 text-xs flex items-center justify-center space-x-2">
                                 <i class="fa-solid fa-crosshairs"></i>
-                                <span>Prospect & Extract Emails</span>
+                                <span>Prospect &amp; Extract Emails</span>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div id="scrapeResultsContainer" class="bg-card rounded-xl p-4 hidden">
-                    <h3 class="text-xs font-heading font-bold text-slate-200 mb-2">Live Extraction Log</h3>
+                <div id="scrapeResultsContainer" class="bg-zotir-card rounded-2xl p-4 hidden">
+                    <h3 class="text-xs font-bricolage font-bold text-[#F4EDE0] mb-2">Live Extraction Log</h3>
                     <div id="scrapeResultsList" class="space-y-2 text-xs font-mono"></div>
                 </div>
             </section>
@@ -364,15 +465,15 @@
             <section id="view-inbox" class="hidden space-y-4">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="font-heading font-bold text-lg text-white">Inbound Lead Intelligence</h2>
-                        <p class="text-xs text-slate-400">Automatic IMAP scanning of harvey@zotirlabs.com with intent classification.</p>
+                        <h2 class="font-bricolage font-bold text-xl text-[#F4EDE0]">Inbound Lead Intelligence</h2>
+                        <p class="text-xs text-[#8F9197]">Automatic IMAP scanning of harvey@zotirlabs.com with intent classification.</p>
                     </div>
-                    <button onclick="scanInbox()" id="btnScanInbox" class="btn-zotir-primary px-4 py-2 rounded-lg text-xs">
+                    <button onclick="scanInbox()" id="btnScanInbox" class="btn-coral px-4 py-2 text-xs">
                         <i class="fa-solid fa-arrows-rotate mr-1.5"></i> Scan Inbox Now
                     </button>
                 </div>
                 <div id="inboxList" class="space-y-3">
-                    <div class="bg-card p-4 rounded-xl text-xs text-slate-400">
+                    <div class="bg-zotir-card p-4 rounded-xl text-xs text-[#8F9197]">
                         Click "Scan Inbox Now" to pull incoming client replies.
                     </div>
                 </div>
@@ -380,34 +481,34 @@
 
             <!-- VIEW 5: CAMPAIGN SETTINGS -->
             <section id="view-campaign" class="hidden space-y-6">
-                <div class="bg-card rounded-2xl p-6 space-y-4 max-w-2xl">
+                <div class="bg-zotir-card rounded-2xl p-6 space-y-4 max-w-2xl">
                     <div>
-                        <h2 class="font-heading font-bold text-lg text-white">Active Strategy & Value Proposition</h2>
-                        <p class="text-xs text-slate-400">All outbound drafts and objection handling dynamically adapt to these variables.</p>
+                        <h2 class="font-bricolage font-bold text-xl text-[#F4EDE0]">Active Strategy &amp; Value Proposition</h2>
+                        <p class="text-xs text-[#8F9197]">All outbound drafts and objection handling dynamically adapt to these variables.</p>
                     </div>
 
                     <div class="space-y-3 pt-2">
                         <div>
-                            <label class="block text-xs font-caps text-slate-400 mb-1">Company Entity</label>
-                            <input type="text" id="campCompany" class="w-full bg-[#121722] border border-zotir rounded-lg px-3.5 py-2 text-sm text-white">
+                            <label class="block text-xs font-semibold text-[#C5BCAD] mb-1">Company Entity</label>
+                            <input type="text" id="campCompany" class="w-full bg-[#0A1222] border border-zotir rounded-xl px-3.5 py-2.5 text-sm text-[#F4EDE0]">
                         </div>
                         <div>
-                            <label class="block text-xs font-caps text-slate-400 mb-1">Core Pitch / Value Hook</label>
-                            <input type="text" id="campOffer" class="w-full bg-[#121722] border border-zotir rounded-lg px-3.5 py-2 text-sm text-white">
+                            <label class="block text-xs font-semibold text-[#C5BCAD] mb-1">Core Pitch / Value Hook</label>
+                            <input type="text" id="campOffer" class="w-full bg-[#0A1222] border border-zotir rounded-xl px-3.5 py-2.5 text-sm text-[#F4EDE0]">
                         </div>
                         <div>
-                            <label class="block text-xs font-caps text-slate-400 mb-1">Target Booking URL</label>
-                            <input type="text" id="campBooking" class="w-full bg-[#121722] border border-zotir rounded-lg px-3.5 py-2 text-sm text-white">
+                            <label class="block text-xs font-semibold text-[#C5BCAD] mb-1">Target Booking URL</label>
+                            <input type="text" id="campBooking" class="w-full bg-[#0A1222] border border-zotir rounded-xl px-3.5 py-2.5 text-sm text-[#F4EDE0]">
                         </div>
                         <div>
-                            <label class="block text-xs font-caps text-slate-400 mb-1">WhatsApp Conversion Line</label>
-                            <input type="text" id="campWhatsapp" class="w-full bg-[#121722] border border-zotir rounded-lg px-3.5 py-2 text-sm text-white">
+                            <label class="block text-xs font-semibold text-[#C5BCAD] mb-1">WhatsApp Conversion Line</label>
+                            <input type="text" id="campWhatsapp" class="w-full bg-[#0A1222] border border-zotir rounded-xl px-3.5 py-2.5 text-sm text-[#F4EDE0]">
                         </div>
                         <div>
-                            <label class="block text-xs font-caps text-slate-400 mb-1">Outbound Mail Identity</label>
-                            <input type="text" id="campSender" class="w-full bg-[#121722] border border-zotir rounded-lg px-3.5 py-2 text-sm text-white">
+                            <label class="block text-xs font-semibold text-[#C5BCAD] mb-1">Outbound Mail Identity</label>
+                            <input type="text" id="campSender" class="w-full bg-[#0A1222] border border-zotir rounded-xl px-3.5 py-2.5 text-sm text-[#F4EDE0]">
                         </div>
-                        <button onclick="saveCampaign()" class="btn-zotir-primary px-5 py-2.5 rounded-lg text-xs mt-2">
+                        <button onclick="saveCampaign()" class="btn-coral px-6 py-2.5 text-xs mt-2">
                             Deploy Strategy Profile
                         </button>
                     </div>
@@ -419,34 +520,34 @@
 
     <!-- DRAFT & SEND OUTREACH MODAL -->
     <div id="emailModal" class="fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
-        <div class="bg-card border border-zotir rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl">
+        <div class="bg-zotir-card border border-zotir rounded-3xl max-w-xl w-full p-6 space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-zotir pb-3">
-                <h3 class="font-heading font-bold text-white text-base flex items-center space-x-2">
-                    <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                <h3 class="font-bricolage font-bold text-[#F4EDE0] text-lg flex items-center space-x-2">
+                    <span class="w-2 h-2 rounded-full bg-[#FF6B5B]"></span>
                     <span>Review Outbound Pitch</span>
                 </h3>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-white text-lg">&times;</button>
+                <button onclick="closeModal()" class="text-[#8F9197] hover:text-white text-lg">&times;</button>
             </div>
             
             <input type="hidden" id="modalLeadId">
             <div>
-                <label class="block text-xs font-caps text-slate-400 mb-1">Recipient Address (Editable for testing)</label>
-                <input type="text" id="modalRecipient" placeholder="e.g. client@example.com or your personal email" class="w-full bg-[#121722] border border-zotir rounded-lg px-3.5 py-2 text-sm text-blue-400 font-mono focus:border-blue-500">
+                <label class="block text-xs font-semibold text-[#C5BCAD] mb-1">Recipient Address (Editable for testing)</label>
+                <input type="text" id="modalRecipient" placeholder="e.g. client@example.com or your personal email" class="w-full bg-[#0A1222] border border-zotir rounded-xl px-3.5 py-2 text-sm text-[#FF6B5B] font-mono focus:border-[#FF6B5B]">
             </div>
             <div>
-                <label class="block text-xs font-caps text-slate-400 mb-1">Subject Line</label>
-                <input type="text" id="modalSubject" class="w-full bg-[#121722] border border-zotir rounded-lg px-3.5 py-2 text-sm text-white focus:border-blue-500">
+                <label class="block text-xs font-semibold text-[#C5BCAD] mb-1">Subject Line</label>
+                <input type="text" id="modalSubject" class="w-full bg-[#0A1222] border border-zotir rounded-xl px-3.5 py-2 text-sm text-[#F4EDE0] focus:border-[#FF6B5B]">
             </div>
             <div>
-                <label class="block text-xs font-caps text-slate-400 mb-1">Message Body</label>
-                <textarea id="modalBody" rows="7" class="w-full bg-[#121722] border border-zotir rounded-lg px-3.5 py-2 text-sm text-white font-sans focus:border-blue-500 leading-relaxed"></textarea>
+                <label class="block text-xs font-semibold text-[#C5BCAD] mb-1">Message Body</label>
+                <textarea id="modalBody" rows="7" class="w-full bg-[#0A1222] border border-zotir rounded-xl px-3.5 py-2 text-sm text-[#F4EDE0] font-sans focus:border-[#FF6B5B] leading-relaxed"></textarea>
             </div>
 
             <div class="flex justify-between items-center pt-2">
-                <span class="text-xs text-slate-500 font-mono">Sender: harvey@zotirlabs.com</span>
+                <span class="text-xs text-[#8F9197] font-mono">Sender: harvey@zotirlabs.com</span>
                 <div class="flex space-x-2">
-                    <button onclick="closeModal()" class="px-4 py-2 rounded-lg text-xs bg-[#161C26] text-slate-300 hover:bg-[#1E2634]">Cancel</button>
-                    <button onclick="executeSend()" id="btnModalSend" class="btn-zotir-primary px-5 py-2 rounded-lg text-xs flex items-center space-x-1.5">
+                    <button onclick="closeModal()" class="btn-ghost-cream px-4 py-2 text-xs">Cancel</button>
+                    <button onclick="executeSend()" id="btnModalSend" class="btn-coral px-5 py-2 text-xs flex items-center space-x-1.5">
                         <i class="fa-solid fa-paper-plane text-xs"></i>
                         <span>Dispatch via Hostinger</span>
                     </button>
@@ -467,10 +568,10 @@
             currentTab = tab;
             ['cockpit', 'leads', 'scraper', 'inbox', 'campaign'].forEach(t => {
                 document.getElementById(`view-${t}`).classList.add('hidden');
-                document.getElementById(`tab-${t}`).className = 'w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition text-slate-400 hover:text-white hover:bg-[#121722]';
+                document.getElementById(`tab-${t}`).className = 'w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition text-[#8F9197] hover:text-white hover:bg-[#111C33]';
             });
             document.getElementById(`view-${tab}`).classList.remove('hidden');
-            document.getElementById(`tab-${tab}`).className = 'w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold tracking-wide transition bg-blue-600/10 text-blue-400 border border-blue-500/30';
+            document.getElementById(`tab-${tab}`).className = 'w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition bg-[#FF6B5B]/15 text-[#FF6B5B] border border-[#FF6B5B]/30';
 
             if (tab === 'leads') refreshLeads();
             if (tab === 'campaign') loadCampaign();
@@ -502,6 +603,7 @@
             const hint = document.getElementById('voiceStatusHint');
             const outer = document.getElementById('vocalRingOuter');
             const inner = document.getElementById('vocalRingInner');
+            const orbState = document.getElementById('orbStateText');
 
             if (!isRecordingAudio) {
                 try {
@@ -521,14 +623,15 @@
 
                     mediaRecorder.start();
                     isRecordingAudio = true;
-                    btn.classList.remove('btn-zotir-primary');
+                    btn.classList.remove('btn-coral');
                     btn.classList.add('bg-red-600', 'text-white', 'animate-pulse');
                     recordText.innerText = "Listening... (Click to Complete)";
-                    hint.innerText = "Recording your voice... Click when finished.";
+                    hint.innerText = "Recording voice... Click when finished.";
+                    orbState.innerText = "LISTENING";
                     outer.classList.add('scale-110', 'border-red-500');
                     inner.classList.add('border-red-500');
                 } catch (err) {
-                    alert("Microphone access denied. Please enable microphone permissions in your browser settings.");
+                    alert("Microphone access denied. Please allow microphone permissions in your browser settings.");
                 }
             } else {
                 if (mediaRecorder && mediaRecorder.state !== 'inactive') {
@@ -536,9 +639,10 @@
                 }
                 isRecordingAudio = false;
                 btn.classList.remove('bg-red-600', 'text-white', 'animate-pulse');
-                btn.classList.add('btn-zotir-primary');
+                btn.classList.add('btn-coral');
                 recordText.innerText = "Formulating Response...";
                 hint.innerText = "Synthesizing strategy with Gemini...";
+                orbState.innerText = "THINKING";
                 outer.classList.remove('scale-110', 'border-red-500');
                 inner.classList.remove('border-red-500');
             }
@@ -565,6 +669,7 @@
             } finally {
                 document.getElementById('recordText').innerText = "Hold or Click to Speak";
                 document.getElementById('voiceStatusHint').innerText = "Direct microphone recording. Sub-second response.";
+                document.getElementById('orbStateText').innerText = "READY";
             }
         }
 
@@ -574,12 +679,17 @@
 
         function playJarvisAudio(src) {
             const audio = document.getElementById('jarvisAudio');
-            audio.src = src;
-            audio.play().catch(e => console.log("Audio autoplay prevented"));
             const outer = document.getElementById('vocalRingOuter');
-            outer.classList.add('scale-105', 'border-blue-400');
+            const orbState = document.getElementById('orbStateText');
+            audio.src = src;
+            audio.play().then(() => {
+                outer.classList.add('scale-105', 'border-[#FF6B5B]', 'animate-pulse');
+                orbState.innerText = "SPEAKING";
+            }).catch(e => console.log("Audio autoplay prevented"));
+            
             audio.onended = () => {
-                outer.classList.remove('scale-105', 'border-blue-400');
+                outer.classList.remove('scale-105', 'border-[#FF6B5B]', 'animate-pulse');
+                orbState.innerText = "READY";
             };
         }
 
@@ -635,20 +745,25 @@
             }
 
             wrap.innerHTML = isJarvis ? `
-                <div class="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">Z</div>
-                <div class="bg-[#121722] border border-zotir rounded-xl p-4 max-w-[85%] text-slate-200 chat-content">${parsedHtml}</div>
+                <div class="w-7 h-7 rounded-full bg-[#0E172B] border border-[#FF6B5B]/40 flex items-center justify-center flex-shrink-0">
+                    <svg viewBox="0 0 56 44" class="w-4 h-3.5">
+                        <path d="M22 4H52L46 14H16Z" fill="#F4EDE0"/>
+                        <path d="M16 17H46L40 27H10Z" fill="#FF6B5B"/>
+                        <path d="M10 30H40L34 40H4Z" fill="#797D86"/>
+                    </svg>
+                </div>
+                <div class="bg-[#111C33] border border-zotir rounded-2xl p-4 max-w-[85%] text-[#F4EDE0] chat-content shadow-sm">${parsedHtml}</div>
             ` : `
-                <div class="bg-blue-600 text-white rounded-xl p-3.5 max-w-[80%] text-sm font-medium shadow-md">${parsedHtml}</div>
+                <div class="bg-[#FF6B5B] text-[#14213D] font-bold rounded-2xl p-3.5 max-w-[80%] text-sm shadow-md">${parsedHtml}</div>
             `;
             history.appendChild(wrap);
             history.scrollTop = history.scrollHeight;
 
-            // Update Claude-style action suggestion chips
             if (suggestions && suggestions.length > 0) {
                 const chipContainer = document.getElementById('chipContainer');
                 let chipHtml = '';
                 suggestions.forEach(s => {
-                    chipHtml += `<button onclick="sendQuickPrompt('${s.replace(/'/g, "\\'")}')" class="chip-pill whitespace-nowrap">${s}</button>`;
+                    chipHtml += `<button onclick="sendQuickPrompt('${s.replace(/'/g, "\\'")}')" class="chip-pill whitespace-nowrap"><i class="fa-solid fa-arrow-right text-[#FF6B5B] mr-1.5"></i>${s}</button>`;
                 });
                 chipContainer.innerHTML = chipHtml;
             }
@@ -657,14 +772,14 @@
         // ---------------- LEADS PIPELINE ----------------
         async function refreshLeads() {
             const tbody = document.getElementById('leadsTableBody');
-            tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500 text-xs">Loading prospects...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-[#8F9197] text-xs">Loading prospects...</td></tr>';
             try {
                 const res = await fetch('/api/leads');
                 const leads = await res.json();
                 loadStats();
 
                 if (!leads.length) {
-                    tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-slate-500 text-xs">No prospects in database. Use Lead Prospector to add target firms.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-[#8F9197] text-xs">No prospects in database. Use Lead Prospector to add target firms.</td></tr>';
                     return;
                 }
 
@@ -672,28 +787,28 @@
                 leads.forEach(l => {
                     const tr = document.createElement('tr');
                     tr.id = `lead-row-${l.id}`;
-                    tr.className = 'hover:bg-[#121722]/60 transition';
-                    const badgeColor = l.status === 'Contacted' ? 'text-blue-400 bg-blue-950/40 border-blue-800' :
-                                       l.status === 'Interested' ? 'text-emerald-400 bg-emerald-950/40 border-emerald-800' :
-                                       'text-slate-400 bg-slate-900 border-slate-700';
+                    tr.className = 'hover:bg-[#111C33]/60 transition';
+                    const badgeColor = l.status === 'Contacted' ? 'text-emerald-400 bg-emerald-950/40 border-emerald-800' :
+                                       l.status === 'Interested' ? 'text-[#FF6B5B] bg-[#FF6B5B]/15 border-[#FF6B5B]/40' :
+                                       'text-[#8F9197] bg-[#0A1222] border-slate-700';
 
                     tr.innerHTML = `
                         <td class="p-3.5">
-                            <div class="font-heading font-bold text-white text-sm">${l.name}</div>
-                            <div class="text-xs text-slate-400">${l.company || ''}</div>
+                            <div class="font-bricolage font-bold text-[#F4EDE0] text-sm">${l.name}</div>
+                            <div class="text-xs text-[#8F9197]">${l.company || ''}</div>
                         </td>
-                        <td class="p-3.5 font-mono text-blue-400 text-xs">${l.email}</td>
+                        <td class="p-3.5 font-mono text-[#FF6B5B] text-xs">${l.email}</td>
                         <td class="p-3.5 text-xs">
-                            ${l.website ? `<a href="${l.website}" target="_blank" class="text-slate-400 hover:text-white underline decoration-slate-700">${l.website.replace('https://', '').replace('http://', '').slice(0, 24)}...</a>` : '-'}
+                            ${l.website ? `<a href="${l.website}" target="_blank" class="text-[#8F9197] hover:text-[#FF6B5B] underline decoration-slate-700">${l.website.replace('https://', '').replace('http://', '').slice(0, 24)}...</a>` : '-'}
                         </td>
                         <td class="p-3.5">
-                            <span id="badge-status-${l.id}" class="px-2.5 py-0.5 rounded text-[11px] font-caps border ${badgeColor}">${l.status}</span>
+                            <span id="badge-status-${l.id}" class="px-3 py-1 rounded-full text-[11px] font-semibold border ${badgeColor}">${l.status}</span>
                         </td>
                         <td class="p-3.5 text-right space-x-2">
-                            <button onclick="openDraftModal(${l.id})" class="bg-blue-600/10 text-blue-400 border border-blue-500/30 px-3 py-1.5 rounded-lg text-xs hover:bg-blue-600/20 transition font-medium">
-                                <i class="fa-solid fa-pen-nib mr-1"></i> Tailor Pitch
+                            <button onclick="openDraftModal(${l.id})" class="btn-ghost-cream px-3 py-1.5 text-xs hover:border-[#FF6B5B]">
+                                <i class="fa-solid fa-pen-nib mr-1 text-[#FF6B5B]"></i> Tailor Pitch
                             </button>
-                            <a href="https://wa.me/923427689885?text=Hi%20${encodeURIComponent(l.name)},%20Harvey%20from%20ZotirLabs%20here..." target="_blank" class="bg-emerald-950/60 text-emerald-400 border border-emerald-800/40 px-2.5 py-1.5 rounded-lg text-xs hover:bg-emerald-900/60 transition inline-block">
+                            <a href="https://wa.me/923427689885?text=Hi%20${encodeURIComponent(l.name)},%20Harvey%20from%20ZotirLabs%20here..." target="_blank" class="bg-emerald-950/60 text-emerald-400 border border-emerald-800/40 px-2.5 py-1.5 rounded-full text-xs hover:bg-emerald-900/60 transition inline-block">
                                 <i class="fa-brands fa-whatsapp"></i>
                             </a>
                         </td>
@@ -718,7 +833,7 @@
             const resBox = document.getElementById('scrapeResultsContainer');
             const list = document.getElementById('scrapeResultsList');
             resBox.classList.remove('hidden');
-            list.innerHTML = `<div class="text-blue-400">Prospecting ${niche} in ${location}...</div>`;
+            list.innerHTML = `<div class="text-[#FF6B5B]">Prospecting ${niche} in ${location}...</div>`;
 
             try {
                 const res = await fetch('/api/scrape', {
@@ -733,8 +848,8 @@
                 data.leads.forEach(l => {
                     html += `
                         <div class="border-b border-zotir py-1.5 flex justify-between text-xs">
-                            <span class="text-white">${l.name} (${l.company})</span>
-                            <span class="text-blue-400">${l.email || 'Email not found'}</span>
+                            <span class="text-[#F4EDE0]">${l.name} (${l.company})</span>
+                            <span class="text-[#FF6B5B]">${l.email || 'Email not found'}</span>
                         </div>
                     `;
                 });
@@ -742,7 +857,7 @@
             } catch (e) {
                 list.innerHTML = `<div class="text-red-400">Extraction error: ${e}</div>`;
             } finally {
-                btn.innerHTML = '<i class="fa-solid fa-crosshairs mr-1.5"></i> Prospect & Extract Emails';
+                btn.innerHTML = '<i class="fa-solid fa-crosshairs mr-1.5"></i> Prospect &amp; Extract Emails';
                 btn.disabled = false;
             }
         }
@@ -783,13 +898,12 @@
             if (!recipient) return alert("Please specify a recipient email address.");
 
             const btn = document.getElementById('btnModalSend');
-            btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin mr-1"></i> Dispathing...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin mr-1"></i> Dispatching...';
             btn.disabled = true;
 
-            // OPTIMISTIC UPDATE: Update status badge in memory immediately
             const badge = document.getElementById(`badge-status-${leadId}`);
             if (badge) {
-                badge.className = 'px-2.5 py-0.5 rounded text-[11px] font-caps border text-blue-400 bg-blue-950/40 border-blue-800';
+                badge.className = 'px-3 py-1 rounded-full text-[11px] font-semibold border text-emerald-400 bg-emerald-950/40 border-emerald-800';
                 badge.innerText = 'Contacted';
             }
 
@@ -832,22 +946,22 @@
                 const res = await fetch('/api/inbox/check');
                 const data = await res.json();
                 if (!data.replies.length) {
-                    list.innerHTML = '<div class="bg-card p-4 rounded-xl text-xs text-slate-400">No new incoming responses in harvey@zotirlabs.com.</div>';
+                    list.innerHTML = '<div class="bg-zotir-card p-4 rounded-xl text-xs text-[#8F9197]">No new incoming responses in harvey@zotirlabs.com.</div>';
                 } else {
                     let html = '';
                     data.replies.forEach(r => {
-                        const intentColor = r.analysis.intent === 'INTERESTED' ? 'text-emerald-400 bg-emerald-950/40 border-emerald-800' : 'text-blue-400 bg-blue-950/40 border-blue-800';
+                        const intentColor = r.analysis.intent === 'INTERESTED' ? 'text-emerald-400 bg-emerald-950/40 border-emerald-800' : 'text-[#FF6B5B] bg-[#FF6B5B]/15 border-[#FF6B5B]/40';
                         html += `
-                            <div class="bg-card p-4 rounded-xl space-y-2 border border-zotir">
+                            <div class="bg-zotir-card p-4 rounded-xl space-y-2 border-zotir">
                                 <div class="flex justify-between items-start">
                                     <div>
-                                        <div class="font-heading font-bold text-white text-sm">${r.from}</div>
-                                        <div class="text-xs text-slate-400 font-mono">${r.subject} | ${r.date}</div>
+                                        <div class="font-bricolage font-bold text-[#F4EDE0] text-sm">${r.from}</div>
+                                        <div class="text-xs text-[#8F9197] font-mono">${r.subject} | ${r.date}</div>
                                     </div>
-                                    <span class="px-2.5 py-0.5 rounded text-[11px] font-caps border ${intentColor}">${r.analysis.intent}</span>
+                                    <span class="px-3 py-1 rounded-full text-[11px] font-semibold border ${intentColor}">${r.analysis.intent}</span>
                                 </div>
-                                <div class="text-xs text-slate-300 bg-[#121722] p-2.5 rounded font-mono">${r.body.slice(0, 200)}...</div>
-                                <div class="text-xs text-blue-300">
+                                <div class="text-xs text-[#EDE4D5] bg-[#0A1222] p-2.5 rounded-lg font-mono">${r.body.slice(0, 200)}...</div>
+                                <div class="text-xs text-[#FF6B5B]">
                                     <b>Recommended Strategic Action:</b> ${r.analysis.recommended_action}
                                 </div>
                             </div>

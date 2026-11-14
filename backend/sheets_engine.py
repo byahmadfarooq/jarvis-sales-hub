@@ -1,10 +1,23 @@
+import os
+import shutil
 import sqlite3
 import csv
 from pathlib import Path
 from datetime import datetime
 
-DB_PATH = Path("D:/jarvis-sales-hub/data/crm_leads.db")
-DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+if os.environ.get("VERCEL"):
+    DB_PATH = Path("/tmp/crm_leads.db")
+    if not DB_PATH.exists():
+        seed = BASE_DIR / "data" / "crm_leads.db"
+        if seed.exists():
+            shutil.copyfile(seed, DB_PATH)
+        else:
+            DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+else:
+    DB_PATH = BASE_DIR / "data" / "crm_leads.db"
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 class CRMDatabase:
     def __init__(self, db_path: Path = DB_PATH):
@@ -143,7 +156,9 @@ class CRMDatabase:
                 data.get("primary_sender", "")
             ))
 
-    def export_csv(self, output_path: str = "D:/jarvis-sales-hub/data/leads_export.csv") -> str:
+    def export_csv(self, output_path: str = None) -> str:
+        if not output_path:
+            output_path = str(self.db_path.parent / "leads_export.csv")
         leads = self.get_leads(limit=1000)
         if not leads:
             return ""

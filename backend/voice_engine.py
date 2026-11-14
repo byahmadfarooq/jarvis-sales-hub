@@ -3,8 +3,11 @@ import base64
 from pathlib import Path
 import edge_tts
 
+import os
+
 VOICE = "en-GB-RyanNeural"
-DATA_DIR = Path("D:/jarvis-sales-hub/data")
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = Path("/tmp/data") if os.environ.get("VERCEL") else BASE_DIR / "data"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 class VoiceEngine:
