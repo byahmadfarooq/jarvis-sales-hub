@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" fill="none">
+  <!-- Dual Chevron: Kinetic Blue (#153DE8) and Deep Obsidian Slate (#090C10) -->
+  <g transform="translate(16, 16)">
+    <path d="M16 16H52L38 32H16L28 16Z" fill="#153DE8"/>
+    <path d="M52 52H16L30 36H52L38 52Z" fill="#090C10"/>
+  </g>
+</svg>

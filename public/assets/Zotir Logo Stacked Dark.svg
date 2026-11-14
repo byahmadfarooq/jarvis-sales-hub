@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 140" width="160" height="140" fill="none">
+  <!-- Dark Backdrop Card so it is clearly visible in Figma on light canvases -->
+  <rect width="160" height="140" rx="18" fill="#080A0F"/>
+  <rect x="1" y="1" width="158" height="138" rx="17" stroke="#1D2535" stroke-width="1.5"/>
+  <!-- Monogram Centered -->
+  <g transform="translate(46, 12)">
+    <path d="M16 16H52L38 32H16L28 16Z" fill="#3B6BFF"/>
+    <path d="M52 52H16L30 36H52L38 52Z" fill="#F8FAFD"/>
+  </g>
+  <!-- Wordmark Centered -->
+  <text x="80" y="102" text-anchor="middle" font-family="'Cabinet Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="24" font-weight="800" letter-spacing="-0.04em" fill="#F8FAFD">ZOTIR</text>
+  <text x="80" y="122" text-anchor="middle" font-family="'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="800" letter-spacing="0.16em" fill="#3B6BFF">LABS</text>
+</svg>

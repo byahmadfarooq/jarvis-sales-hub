@@ -215,7 +215,7 @@ def update_campaign(data: CampaignUpdate):
 
 # Static File Mounting
 BASE_DIR = Path(__file__).resolve().parent.parent
-FRONTEND_DIR = BASE_DIR / "frontend"
+FRONTEND_DIR = BASE_DIR / "public" if (BASE_DIR / "public").exists() else BASE_DIR / "frontend"
 DATA_DIR = Path("/tmp/data") if os.environ.get("VERCEL") else BASE_DIR / "data"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
